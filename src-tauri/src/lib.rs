@@ -50,6 +50,7 @@ pub async fn image2x(x: Format, source: String) -> Result<String, anyhow::Error>
     let image_format = ImageFormat::from_extension(x.to_string().as_str()).ok_or(err);
 
     img.save_with_format(path, image_format?)?;
+    println!("转换成功");
     Ok(source)
 }
 
