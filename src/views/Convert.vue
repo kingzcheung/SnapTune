@@ -106,6 +106,7 @@ onMounted(() => {
 
 <template>
   <div class="convert">
+    <h1 class="text-2xl mb-5">图片转换</h1>
     <div class="overflow-y-auto">
       <table class="table table-compact w-full mb-20">
         <!-- head -->

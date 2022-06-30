@@ -28,6 +28,11 @@ const router = createRouter({
                     name: "SuperResolution",
                     component: () => import("../views/SuperResolution.vue")
                 },
+                {
+                    path: '/rename',
+                    name: "Rename",
+                    component: () => import("../views/Rename.vue")
+                },
             ]
         }
     ]

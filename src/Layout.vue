@@ -4,10 +4,11 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const currentTab = ref('Convert');
 const tabData = ref([
-  {key:"Convert",name:"图片转换器"},
+  {key:"Convert",name:"图片转换"},
   {key:"Compression",name:"JPEG/PNG 压缩"},
   {key:"DPI",name:"修改图片尺寸(DPI)"},
   {key:"SuperResolution",name:"超分辨率(AI)"},
+  {key:"Rename",name:"批量重命名"},
 ]);
 
 const clickTab = (key) => {
@@ -18,8 +19,8 @@ const clickTab = (key) => {
 };
 </script>
 <template>
-  <div class="relative h-full overscroll-none flex">
-  <ul class="menu p-4 overflow-y-auto w-60 text-base-content bg-base-300 border-r-2	">
+  <div class="relative h-full overflow-x-hidden overscroll-none flex">
+  <ul class="menu p-4 overflow-y-auto w-60 text-base-content bg-base-300 border-gray-400 border-r-2	flex-none">
       <!-- Sidebar content here -->
       <li v-for="t of tabData" :key="t.key">
        <a class="block mb-1 text-sm	"
