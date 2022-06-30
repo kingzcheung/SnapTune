@@ -90,7 +90,9 @@ const ext = (file_path) => {
 };
 
 onMounted(() => {
+
   listen("tauri://file-drop", (event) => {
+    console.log(event.payload)
     files.value = event.payload.map((v) => {
       return {
         file: v,
@@ -98,7 +100,6 @@ onMounted(() => {
         type: ext(v) + " 图像",
       };
     });
-    // console.log(event.payload)
   });
 });
 </script>
@@ -205,7 +206,7 @@ onMounted(() => {
     </div>
     <div
       class="
-        fixed
+        absolute
         z-50
         left-0
         right-0
@@ -232,7 +233,7 @@ onMounted(() => {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
-          <span class="text-gray-300 pl-1">提示: 可以直接把文件拖拽进来</span>
+          <span class="text-gray-300 text-sm pl-1">提示: 可以直接把文件拖拽进来</span>
         </div>
         <div v-if="errors.error" class="pl-4 flex items-center">
           <svg
@@ -273,8 +274,8 @@ onMounted(() => {
                 @click="selectFormat(format)"
                 v-for="format in formats"
                 :key="format"
-                class="btn text-lg"
-                :class="{ 'btn-active btn-success': format === currentFormat }"
+                class="btn text-md btn-sm"
+                :class="{ 'btn-active btn-accent': format === currentFormat }"
               >
                 {{ format }}
               </button>
@@ -284,7 +285,7 @@ onMounted(() => {
       </div>
 
       <div
-        class="flex items-center px-1 bg-blue-700 ml-2 cursor-pointer"
+        class="flex items-center px-1 bg-primary ml-2 cursor-pointer"
         @click="onClick"
       >
         <span class="text-primary-content font-bold px-8">转换</span>

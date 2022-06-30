@@ -21,6 +21,10 @@ tauri = { version = "1.0.0", features = ["api-all"] }
 image = {version = "0.24"}
 anyhow = "1.0.57"
 tokio = {version="^1.19", features = ["full"] }
+#png 压缩优化器
+oxipng = "^5.0"
+# compressed JPEG images.
+mozjpeg = "0.9.3"
 
 [features]
 # by default Tauri runs in production mode
