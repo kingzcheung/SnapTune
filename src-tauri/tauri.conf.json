@@ -61,7 +61,8 @@
         "resizable": true,
         "title": "image2x",
         "width": 800,
-        "fileDropEnabled": true
+        "fileDropEnabled": true,
+        "decorations": true
       }
     ]
   }

@@ -10,13 +10,16 @@
     "clean": "cd src-tauri && cargo clean"
   },
   "dependencies": {
+    "@heroicons/vue": "^1.0.6",
     "@tauri-apps/api": "^1.0.1",
     "daisyui": "^2.17.0",
+    "heroicons": "github:tailwindlabs/heroicons",
+    "theme-change": "^2.0.2",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.1",
+    "@tauri-apps/cli": "^1.0.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",

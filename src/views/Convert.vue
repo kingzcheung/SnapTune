@@ -2,6 +2,8 @@
 import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
+import { CheckCircleIcon,XCircleIcon,ExclamationCircleIcon } from '@heroicons/vue/solid'
+
 
 const files = ref([]);
 const formats = ref([
@@ -90,9 +92,8 @@ const ext = (file_path) => {
 };
 
 onMounted(() => {
-
   listen("tauri://file-drop", (event) => {
-    console.log(event.payload)
+    console.log(event.payload);
     files.value = event.payload.map((v) => {
       return {
         file: v,
@@ -107,103 +108,21 @@ onMounted(() => {
 <template>
   <div class="convert">
     <h1 class="text-2xl mb-5">图片转换</h1>
-    <div class="overflow-y-auto">
-      <table class="table table-compact w-full mb-20">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th></th>
-            <th>名称</th>
-            <th>类型</th>
-            <th>状态</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr
-            :class="{ active: i % 2 == 0 }"
-            v-for="(file, i) of files"
-            :key="file.file"
-          >
-            <th>{{ i + 1 }}</th>
-            <td class="truncate">{{ file.file }}</td>
-            <td>{{ file.type }}</td>
-            <td>
-              <svg
-                v-if="file.status === 1"
-                t="1656489464034"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="1248"
-                width="16"
-                height="16"
-              >
-                <path
-                  d="M512 512m-448 0a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z"
-                  fill="#07C160"
-                  p-id="1249"
-                ></path>
-                <path
-                  d="M466.7 679.8c-8.5 0-16.6-3.4-22.6-9.4l-181-181.1c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l158.4 158.5 249-249c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L489.3 670.4c-6 6-14.1 9.4-22.6 9.4z"
-                  fill="#FFFFFF"
-                  p-id="1250"
-                ></path>
-              </svg>
-              <svg
-                v-if="file.status === -1"
-                t="1656489517929"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="1523"
-                width="16"
-                height="16"
-              >
-                <path
-                  d="M512 512m-448 0a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z"
-                  fill="#FA5151"
-                  p-id="1524"
-                ></path>
-                <path
-                  d="M557.3 512l113.1-113.1c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L512 466.7 398.9 353.6c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L466.7 512 353.6 625.1c-12.5 12.5-12.5 32.8 0 45.3 6.2 6.2 14.4 9.4 22.6 9.4s16.4-3.1 22.6-9.4L512 557.3l113.1 113.1c6.2 6.2 14.4 9.4 22.6 9.4s16.4-3.1 22.6-9.4c12.5-12.5 12.5-32.8 0-45.3L557.3 512z"
-                  fill="#FFFFFF"
-                  p-id="1525"
-                ></path>
-              </svg>
-              <svg
-                v-if="file.status === 0"
-                t="1656489552631"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="1798"
-                width="16"
-                height="16"
-              >
-                <path
-                  d="M512 512m-448 0a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z"
-                  fill="#CCCCCC"
-                  p-id="1799"
-                ></path>
-                <path
-                  d="M676.6 347.4H347.4c-15.1 0-27.4 12.3-27.4 27.4v274.3c0 15.1 12.3 27.4 27.4 27.4h329.1c15.1 0 27.4-12.3 27.4-27.4V374.9c0.1-15.2-12.2-27.5-27.3-27.5zM361 374.9h302c7.5 0 13.6 6.1 13.6 13.6v167.3l-90.4-94.7c-2.7-2.7-6.2-4-9.7-4-3.5 0-7 1.3-9.7 4l-98.7 102.8-44.5-22.1c-2.3-1.6-5-2.3-7.6-2.3-3.5 0-7 1.3-9.6 4l-58.9 58.9V388.5c-0.1-7.6 6-13.6 13.5-13.6z m315.6 260.6c0 7.5-6.1 13.6-13.6 13.6H361c-5.9 0-10.8-3.7-12.8-8.9l70.5-70.5 44 21.9c2.4 1.8 5.3 2.7 8.2 2.7 4.2 0 8.4-1.9 11-5.5l95.7-99.7 98.8 101.3v45.1z"
-                  fill="#FFFFFF"
-                  p-id="1800"
-                ></path>
-                <path
-                  d="M416 484.6c22.7 0 41.1-18.4 41.1-41.1 0-22.7-18.4-41.1-41.1-41.1-22.7 0-41.1 18.4-41.1 41.1 0 22.7 18.4 41.1 41.1 41.1z m0-54.9c7.6 0 13.7 6.1 13.7 13.7s-6.1 13.7-13.7 13.7-13.7-6.1-13.7-13.7 6.1-13.7 13.7-13.7z"
-                  fill="#FFFFFF"
-                  p-id="1801"
-                ></path>
-              </svg>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="overflow-y-auto -m-3">
+      <div
+        class="flex item-center p-3"
+        :class="{ 'bg-base-100': i % 2 == 0 }"
+        v-for="(file, i) of files"
+        :key="file.file"
+      >
+        <div class="truncate w-80 flex-1">{{ file.file }}</div>
+        <div class="px-2">{{ file.type }}</div>
+        <div class="pl-4">
+            <check-circle-icon v-if="file.status == 1" class="h-5 w-5 text-green-500"></check-circle-icon>
+            <x-circle-icon  v-if="file.status == -1" class="h-5 w-5 text-red-500"></x-circle-icon>
+            <exclamation-circle-icon v-if="file.status == 0" class="h-5 w-5 text-gray-500"></exclamation-circle-icon>
+        </div>
+      </div>
     </div>
     <div
       class="
@@ -234,7 +153,9 @@ onMounted(() => {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
-          <span class="text-gray-300 text-sm pl-1">提示: 可以直接把文件拖拽进来</span>
+          <span class="text-gray-300 text-sm pl-1"
+            >提示: 可以直接把文件拖拽进来</span
+          >
         </div>
         <div v-if="errors.error" class="pl-4 flex items-center">
           <svg
