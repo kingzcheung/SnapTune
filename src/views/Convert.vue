@@ -2,8 +2,11 @@
 import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
-import { CheckCircleIcon,XCircleIcon,ExclamationCircleIcon } from '@heroicons/vue/solid'
-
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/vue/solid";
 
 const files = ref([]);
 const formats = ref([
@@ -27,6 +30,14 @@ const errors = ref({
   msg: "",
   error: false,
 });
+
+const get_file_name = (path) => {
+  var pos1 = path.lastIndexOf("/");
+  var pos2 = path.lastIndexOf("\\");
+  var pos = Math.max(pos1, pos2);
+  if (pos < 0) return path;
+  else return path.substring(pos + 1);
+};
 
 // 转换的加载动画状态
 const convertLoading = ref(false);
@@ -91,11 +102,16 @@ const ext = (file_path) => {
   return h.toUpperCase();
 };
 
+const deleteItem = (index) => {
+  files.value.splice(index, 1);
+};
+
 onMounted(() => {
   listen("tauri://file-drop", (event) => {
     console.log(event.payload);
     files.value = event.payload.map((v) => {
       return {
+        filename: get_file_name(v),
         file: v,
         status: 0,
         type: ext(v) + " 图像",
@@ -110,17 +126,31 @@ onMounted(() => {
     <h1 class="text-2xl mb-5">图片转换</h1>
     <div class="overflow-y-auto -m-3">
       <div
-        class="flex item-center p-3"
+        class="flex item-center p-3 align-middle"
         :class="{ 'bg-base-100': i % 2 == 0 }"
         v-for="(file, i) of files"
         :key="file.file"
       >
-        <div class="truncate w-80 flex-1">{{ file.file }}</div>
+        <div class="truncate w-80 flex-1">{{ file.filename }}</div>
         <div class="px-2">{{ file.type }}</div>
-        <div class="pl-4">
-            <check-circle-icon v-if="file.status == 1" class="h-5 w-5 text-green-500"></check-circle-icon>
-            <x-circle-icon  v-if="file.status == -1" class="h-5 w-5 text-red-500"></x-circle-icon>
-            <exclamation-circle-icon v-if="file.status == 0" class="h-5 w-5 text-gray-500"></exclamation-circle-icon>
+        <div class="px-4 self-center">
+          <check-circle-icon
+            v-if="file.status == 1"
+            class="h-5 w-5 text-green-500"
+          ></check-circle-icon>
+          <x-circle-icon
+            v-if="file.status == -1"
+            class="h-5 w-5 text-red-500"
+          ></x-circle-icon>
+          <exclamation-circle-icon
+            v-if="file.status == 0"
+            class="h-5 w-5 text-gray-500"
+          ></exclamation-circle-icon>
+        </div>
+        <div class="ml-2">
+          <button class="btn btn-xs btn-outline" @click="deleteItem(i)">
+            删除
+          </button>
         </div>
       </div>
     </div>

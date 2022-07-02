@@ -57,10 +57,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 720,
         "resizable": true,
         "title": "image2x",
-        "width": 800,
+        "width": 1000,
         "fileDropEnabled": true,
         "decorations": true
       }

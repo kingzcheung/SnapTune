@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { themeChange } from "theme-change";
 
+const route = useRoute();
 const router = useRouter();
 const currentTab = ref("Convert");
 const tabData = ref([
@@ -21,6 +22,12 @@ const clickTab = (key) => {
 };
 
 onMounted(() => {
+  
+  for (let item of tabData.value) {
+    if (route.matched[1]?.name == item.key) {
+      currentTab.value = route.matched[1]?.name;
+    }
+  }
   themeChange(false);
 });
 </script>
