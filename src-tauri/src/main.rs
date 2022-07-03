@@ -3,7 +3,7 @@
   windows_subsystem = "windows"
 )]
 
-use app::{image2x, Format};
+use app::convert::{Format, image2x};
 use tauri::{CustomMenuItem, Submenu, Menu, MenuItem, generate_context};
 
 fn main() {

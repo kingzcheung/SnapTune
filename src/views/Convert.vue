@@ -19,10 +19,6 @@ const formats = ref([
   "WebP",
   "AVIF",
   "PNM",
-  "DDS",
-  "TGA",
-  "OpenEXR",
-  "Farbfeld",
 ]);
 const currentFormat = ref("PNG");
 

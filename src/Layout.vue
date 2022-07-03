@@ -2,16 +2,16 @@
 import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { themeChange } from "theme-change";
-
+import { CollectionIcon,CashIcon,ArchiveIcon,CubeTransparentIcon } from "@heroicons/vue/solid";
 const route = useRoute();
 const router = useRouter();
 const currentTab = ref("Convert");
 const tabData = ref([
-  { key: "Convert", name: "图片转换" },
-  { key: "Compression", name: "图片压缩" },
-  { key: "DPI", name: "修改图片尺寸(DPI)" },
-  { key: "SuperResolution", name: "超分辨率" },
-  { key: "Rename", name: "批量重命名" },
+  { key: "Convert", icon: CashIcon, name: "图片转换" },
+  { key: "Compression", icon: ArchiveIcon, name: "图片压缩" },
+  { key: "DPI", icon: CollectionIcon, name: "修改图片尺寸(DPI)" },
+  { key: "SuperResolution", icon: CubeTransparentIcon, name: "超分辨率" },
+  { key: "Rename", icon: CollectionIcon, name: "批量重命名" },
 ]);
 
 const clickTab = (key) => {
@@ -22,7 +22,6 @@ const clickTab = (key) => {
 };
 
 onMounted(() => {
-  
   for (let item of tabData.value) {
     if (route.matched[1]?.name == item.key) {
       currentTab.value = route.matched[1]?.name;
@@ -32,7 +31,9 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="relative h-full overflow-x-hidden overscroll-none flex bg-base-200 ">
+  <div
+    class="relative h-full overflow-x-hidden overscroll-none flex bg-base-200"
+  >
     <ul
       class="
         menu
@@ -58,6 +59,7 @@ onMounted(() => {
           @click="clickTab(t.key)"
           :class="{ 'bg-primary text-gray-50': t.key == currentTab }"
         >
+          <component class="h-5 w-5 text-base-content" :is="t.icon"></component>
           <span class="ml-1">{{ t.name }}</span>
         </a>
       </li>
