@@ -12,11 +12,11 @@
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
     "@tauri-apps/api": "^1.0.1",
-    "daisyui": "^2.17.0",
+    "daisyui": "^2.18.0",
     "heroicons": "github:tailwindlabs/heroicons",
-    "theme-change": "^2.0.2",
+    "theme-change": "^2.1.0",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue-router": "^4.1.1"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.2",

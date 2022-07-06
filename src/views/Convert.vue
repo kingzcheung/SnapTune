@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
+import { get_file_name,ext } from "../utils";
 import {
   CheckCircleIcon,
   XCircleIcon,
@@ -27,13 +28,7 @@ const errors = ref({
   error: false,
 });
 
-const get_file_name = (path) => {
-  var pos1 = path.lastIndexOf("/");
-  var pos2 = path.lastIndexOf("\\");
-  var pos = Math.max(pos1, pos2);
-  if (pos < 0) return path;
-  else return path.substring(pos + 1);
-};
+
 
 // 转换的加载动画状态
 const convertLoading = ref(false);
@@ -93,10 +88,6 @@ const onClick = () => {
   });
 };
 
-const ext = (file_path) => {
-  const h = file_path.substr(file_path.lastIndexOf(".") + 1);
-  return h.toUpperCase();
-};
 
 const deleteItem = (index) => {
   files.value.splice(index, 1);
