@@ -11,13 +11,8 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
-<<<<<<< HEAD
-    "@tauri-apps/api": "^1.0.1",
-    "daisyui": "^2.18.0",
-=======
     "@tauri-apps/api": "^1.0.2",
     "daisyui": "^2.18.1",
->>>>>>> 0054911 (add jsconfig)
     "heroicons": "github:tailwindlabs/heroicons",
     "theme-change": "^2.1.0",
     "vue": "^3.2.37",

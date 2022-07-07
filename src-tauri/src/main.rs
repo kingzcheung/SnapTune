@@ -3,7 +3,7 @@
   windows_subsystem = "windows"
 )]
 
-use app::convert::{Format, image2x};
+use app::{convert::{Format, image2x}, file_metadata, Meta};
 use tauri::{CustomMenuItem, Submenu, Menu, MenuItem, generate_context};
 
 fn main() {
@@ -17,7 +17,7 @@ fn main() {
 
   let context = generate_context!();
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![image2x_command])
+    .invoke_handler(tauri::generate_handler![image2x_command,file_metadata_command])
     .menu(tauri::Menu::os_default(&context.package_info().name))
     .run(context)
     .expect("error while running tauri application");
@@ -30,4 +30,12 @@ async fn image2x_command(x: Format,index:i32,source: String)->Result<i32, String
     Ok(_) => Ok(index),
     Err(e) => Err(e.to_string()),
   }
+}
+
+#[tauri::command]
+async fn file_metadata_command(files: Vec<String>) -> Result<Vec<Meta>,String> {
+  match file_metadata(files).await {
+    Ok(data) => Ok(data),
+    Err(e) => Err(e.to_string()),
+}
 }
