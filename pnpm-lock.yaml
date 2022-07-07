@@ -2,11 +2,15 @@ lockfileVersion: 5.4
 
 specifiers:
   '@heroicons/vue': ^1.0.6
-  '@tauri-apps/api': ^1.0.1
-  '@tauri-apps/cli': ^1.0.2
+  '@tauri-apps/api': ^1.0.2
+  '@tauri-apps/cli': ^1.0.3
   '@vitejs/plugin-vue': ^2.3.3
   autoprefixer: ^10.4.7
+<<<<<<< HEAD
   daisyui: ^2.18.0
+=======
+  daisyui: ^2.18.1
+>>>>>>> 0054911 (add jsconfig)
   heroicons: github:tailwindlabs/heroicons
   postcss: ^8.4.14
   tailwindcss: ^3.1.4
@@ -17,15 +21,20 @@ specifiers:
 
 dependencies:
   '@heroicons/vue': registry.npmmirror.com/@heroicons/vue/1.0.6_vue@3.2.37
+<<<<<<< HEAD
   '@tauri-apps/api': registry.npmmirror.com/@tauri-apps/api/1.0.1
   daisyui: registry.npmmirror.com/daisyui/2.18.0_ugi4xkrfysqkt4c4y6hkyfj344
+=======
+  '@tauri-apps/api': registry.npmmirror.com/@tauri-apps/api/1.0.2
+  daisyui: registry.npmmirror.com/daisyui/2.18.1_ugi4xkrfysqkt4c4y6hkyfj344
+>>>>>>> 0054911 (add jsconfig)
   heroicons: github.com/tailwindlabs/heroicons/db29d11448c947c42822aca42026a9f14806530d
   theme-change: registry.npmmirror.com/theme-change/2.1.0
   vue: registry.npmmirror.com/vue/3.2.37
   vue-router: registry.npmmirror.com/vue-router/4.1.1_vue@3.2.37
 
 devDependencies:
-  '@tauri-apps/cli': registry.npmmirror.com/@tauri-apps/cli/1.0.2
+  '@tauri-apps/cli': registry.npmmirror.com/@tauri-apps/cli/1.0.3
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/2.3.3_vite@2.9.13+vue@3.2.37
   autoprefixer: registry.npmmirror.com/autoprefixer/10.4.7_postcss@8.4.14
   postcss: registry.npmmirror.com/postcss/8.4.14
@@ -35,7 +44,7 @@ devDependencies:
 packages:
 
   github.com/tailwindlabs/heroicons/db29d11448c947c42822aca42026a9f14806530d:
-    resolution: {commit: db29d11448c947c42822aca42026a9f14806530d, repo: git+ssh://git@github.com/tailwindlabs/heroicons.git, type: git}
+    resolution: {tarball: https://codeload.github.com/tailwindlabs/heroicons/tar.gz/db29d11448c947c42822aca42026a9f14806530d}
     name: heroicons
     version: 1.0.6
     dev: false
@@ -99,19 +108,17 @@ packages:
       '@nodelib/fs.scandir': registry.npmmirror.com/@nodelib/fs.scandir/2.1.5
       fastq: registry.npmmirror.com/fastq/1.13.0
 
-  registry.npmmirror.com/@tauri-apps/api/1.0.1:
-    resolution: {integrity: sha512-TJwKkXxtF52kN9Auu5TWD2AE4ssqTrsfdpIrixYwRb3gQ/FuYwvZjrMc9weYpgsW2cMhVNkvKgneNXF/4n04lw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/api/-/api-1.0.1.tgz}
+  registry.npmmirror.com/@tauri-apps/api/1.0.2:
+    resolution: {integrity: sha512-yuNW0oeJ1/ZA7wNF1KgxhHrSu5viPVzY/UgUczzN5ptLM8dH15Juy5rEGkoHfeXGju90Y/l22hi3BtIrp/za+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/api/-/api-1.0.2.tgz}
     name: '@tauri-apps/api'
-    version: 1.0.1
+    version: 1.0.2
     engines: {node: '>= 12.22.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
-    dependencies:
-      type-fest: registry.npmmirror.com/type-fest/2.13.1
     dev: false
 
-  registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/1.0.2:
-    resolution: {integrity: sha512-Ahd951yoYon1+WLNBg6xsx6Bb7+GJt7WwC1FllHZ2/iLCbrtWCS2qfeLS0L4ngBqCuWyL35JC/M2LIr9mcUzrg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/-/cli-darwin-arm64-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/1.0.3:
+    resolution: {integrity: sha512-J0KkbpHwaTEaQFWA/yx+LDYwhV+MMI1GJsHqT1L7cIsDD/DoFyVQq8kDCZ71xTx61g0fgLwbXeTenpLEcegRpw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/-/cli-darwin-arm64-1.0.3.tgz}
     name: '@tauri-apps/cli-darwin-arm64'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -119,10 +126,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-darwin-x64/1.0.2:
-    resolution: {integrity: sha512-8wo+SN1zWoXFQVa/iyEt3Cs0vNMjxDXqVe3Srm4UNpgKboFN5mIgbugwqvM+aJKnEZAH8h8n+ZJUHzc4wtPGHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-darwin-x64/-/cli-darwin-x64-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-darwin-x64/1.0.3:
+    resolution: {integrity: sha512-xO6bBCzLFIg9IelF7djUDqOpLXFv9jvaEwGgMacbhNHrqmH8DdgFqQ0vChUnNkSHxGvbl48Ob/w9tPajfGsW/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-darwin-x64/-/cli-darwin-x64-1.0.3.tgz}
     name: '@tauri-apps/cli-darwin-x64'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -130,10 +137,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/1.0.2:
-    resolution: {integrity: sha512-PGQghMn0adt9PTnyi2K2o/CLG3tWbOyZvwQjam5cfQbK757WmMgPErC1VqsxiQc+PItWYvqoE9gjANiFc2MpAQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/-/cli-linux-arm-gnueabihf-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/1.0.3:
+    resolution: {integrity: sha512-0lOBJgtklVw8ZQPw9wBiYMLontW+TgZ45wNz/jawx2TFWy8XZVflKXGR82/Cc1RyYKgxJTgzpbHhH0ueA2hUGg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/-/cli-linux-arm-gnueabihf-1.0.3.tgz}
     name: '@tauri-apps/cli-linux-arm-gnueabihf'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -141,10 +148,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/1.0.2:
-    resolution: {integrity: sha512-Uc+XNlWelrnRh7DYrdxBi8Oam9JAQM1GzgEwjupF6Pv7BwlODN7s0HImGPQOKrEkqzpfmYw7KpfgWiiEjS5/3Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/-/cli-linux-arm64-gnu-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/1.0.3:
+    resolution: {integrity: sha512-NS7ki2JPCFzntV5X5xiPfseTHyb7K0zlX8Ntvu39ARaFBbIWKe7xBKpp1bBNiKFoHlfXFAe28yQtPh3xsuuLaQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/-/cli-linux-arm64-gnu-1.0.3.tgz}
     name: '@tauri-apps/cli-linux-arm64-gnu'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -152,10 +159,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/1.0.2:
-    resolution: {integrity: sha512-lVwCG1QzQs2zWP32H4+Dw8NKgJ6hBox2X+bmawGfV9Ce+K4P84bnqfNgpdaSAncjeiTjrO+g7yT9gJFQCOrjlQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/-/cli-linux-arm64-musl-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/1.0.3:
+    resolution: {integrity: sha512-ak3xFnuk4pxLgsBD3CqscNICUVrEIwcFUP6WEKLAkvOrfozeZ14YE3hdTQF3fpKWa5TvROiJcS/0I62FkGtRkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/-/cli-linux-arm64-musl-1.0.3.tgz}
     name: '@tauri-apps/cli-linux-arm64-musl'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -163,10 +170,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/1.0.2:
-    resolution: {integrity: sha512-G2XmGxvufW9sgGhA3rx+HehcifVTUo8zyISd8DpvGwtpp6Z4WakbivzKFyGiNnnok0nvj/WUrLgBxtUbfdSY+A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/-/cli-linux-x64-gnu-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/1.0.3:
+    resolution: {integrity: sha512-qj1fYINU5EYLxjpdlKLy/ZYev7EyIhiV1vxkYZzoY4w+9UW75+qv77QLWRgWnmN/Z6RyxP50PUuUfUPDV111+A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/-/cli-linux-x64-gnu-1.0.3.tgz}
     name: '@tauri-apps/cli-linux-x64-gnu'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -174,10 +181,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/1.0.2:
-    resolution: {integrity: sha512-/eX536p+KXSmkFuINGeU6EQmYiQEXj6JXbmetmJmkXN0297HbtH3rS3wlyVDCnobRzh1hMeOJEnV+XA20GghMA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/-/cli-linux-x64-musl-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/1.0.3:
+    resolution: {integrity: sha512-jJZrZNltnobavoCxgQyUm8d2vfZHAOG5I5xSpqD4PSAl1hR72Z6rHCEp3RzOxgk92yoPJapu/rvTXj2RudfcJQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/-/cli-linux-x64-musl-1.0.3.tgz}
     name: '@tauri-apps/cli-linux-x64-musl'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -185,10 +192,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/1.0.2:
-    resolution: {integrity: sha512-ZvnaKkCABqUbyUKlNk4RdxKyfOte30D5BxN1pj6iZNeKAwXEuTcgP6iPzOovdeaDirkIjcWCEZymwtZDXN4Rvg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/-/cli-win32-ia32-msvc-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/1.0.3:
+    resolution: {integrity: sha512-n3JWIpSaqs80lBt3B3qqWpjfcYzuQ0SzkIXCppBM6zBKORR6mJRLgMdM1D22b7PfqTCfkpJpufpwWvFvIsZFsQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/-/cli-win32-ia32-msvc-1.0.3.tgz}
     name: '@tauri-apps/cli-win32-ia32-msvc'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -196,10 +203,10 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/1.0.2:
-    resolution: {integrity: sha512-uMcQyQQD7nyxps34HyYBYUYzFwH26lP58/qdT/GZWvBL1Sv2rqkQXuxHT7xtp4g7nTs0fGRWOtfcnvYIr/1wDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/-/cli-win32-x64-msvc-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/1.0.3:
+    resolution: {integrity: sha512-Sg/s4SAwIV2hix3P5oyj3SDTXAtmbCDXwEzOr+19CRvto10wDzUD8itJroZPSIuL+NtL4kjmDnoI4gd/1Mrvdw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/-/cli-win32-x64-msvc-1.0.3.tgz}
     name: '@tauri-apps/cli-win32-x64-msvc'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -207,22 +214,22 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/@tauri-apps/cli/1.0.2:
-    resolution: {integrity: sha512-OJdQJVwtKnTAuv2a9JQlOd0gHbbGsXwT+N6M6YQiXZ3/5WdlXey1zhnD78GXwZsf8Cz0R7QIGTBECO4ur4fnKg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli/-/cli-1.0.2.tgz}
+  registry.npmmirror.com/@tauri-apps/cli/1.0.3:
+    resolution: {integrity: sha512-Ufwj4Fs+/8TQrVIoYbALZ9oB4pxeUFrNWAckUViv0NfyRjATBa6PbC9Q9lalNeSGqciKQEx2ox0UbwAk2p2iOg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/cli/-/cli-1.0.3.tgz}
     name: '@tauri-apps/cli'
-    version: 1.0.2
+    version: 1.0.3
     engines: {node: '>= 10'}
     hasBin: true
     optionalDependencies:
-      '@tauri-apps/cli-darwin-arm64': registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/1.0.2
-      '@tauri-apps/cli-darwin-x64': registry.npmmirror.com/@tauri-apps/cli-darwin-x64/1.0.2
-      '@tauri-apps/cli-linux-arm-gnueabihf': registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/1.0.2
-      '@tauri-apps/cli-linux-arm64-gnu': registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/1.0.2
-      '@tauri-apps/cli-linux-arm64-musl': registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/1.0.2
-      '@tauri-apps/cli-linux-x64-gnu': registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/1.0.2
-      '@tauri-apps/cli-linux-x64-musl': registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/1.0.2
-      '@tauri-apps/cli-win32-ia32-msvc': registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/1.0.2
-      '@tauri-apps/cli-win32-x64-msvc': registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/1.0.2
+      '@tauri-apps/cli-darwin-arm64': registry.npmmirror.com/@tauri-apps/cli-darwin-arm64/1.0.3
+      '@tauri-apps/cli-darwin-x64': registry.npmmirror.com/@tauri-apps/cli-darwin-x64/1.0.3
+      '@tauri-apps/cli-linux-arm-gnueabihf': registry.npmmirror.com/@tauri-apps/cli-linux-arm-gnueabihf/1.0.3
+      '@tauri-apps/cli-linux-arm64-gnu': registry.npmmirror.com/@tauri-apps/cli-linux-arm64-gnu/1.0.3
+      '@tauri-apps/cli-linux-arm64-musl': registry.npmmirror.com/@tauri-apps/cli-linux-arm64-musl/1.0.3
+      '@tauri-apps/cli-linux-x64-gnu': registry.npmmirror.com/@tauri-apps/cli-linux-x64-gnu/1.0.3
+      '@tauri-apps/cli-linux-x64-musl': registry.npmmirror.com/@tauri-apps/cli-linux-x64-musl/1.0.3
+      '@tauri-apps/cli-win32-ia32-msvc': registry.npmmirror.com/@tauri-apps/cli-win32-ia32-msvc/1.0.3
+      '@tauri-apps/cli-win32-x64-msvc': registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/1.0.3
     dev: true
 
   registry.npmmirror.com/@vitejs/plugin-vue/2.3.3_vite@2.9.13+vue@3.2.37:
@@ -415,7 +422,11 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001363
+<<<<<<< HEAD
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.180
+=======
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.182
+>>>>>>> 0054911 (add jsconfig)
       node-releases: registry.npmmirror.com/node-releases/2.0.5
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.4_browserslist@4.21.1
 
@@ -500,11 +511,19 @@ packages:
     name: csstype
     version: 2.6.20
 
+<<<<<<< HEAD
   registry.npmmirror.com/daisyui/2.18.0_ugi4xkrfysqkt4c4y6hkyfj344:
     resolution: {integrity: sha512-PIS+byC2r90VZV/9RUD2E3BsyzE0cj4PmFTDQqGd+4+hnVP5OB3DnjPBhjhfJwySErzpz0ZVOGRi/X9rWRhP5A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/daisyui/-/daisyui-2.18.0.tgz}
     id: registry.npmmirror.com/daisyui/2.18.0
     name: daisyui
     version: 2.18.0
+=======
+  registry.npmmirror.com/daisyui/2.18.1_ugi4xkrfysqkt4c4y6hkyfj344:
+    resolution: {integrity: sha512-MBmhUxkFefa9WvIWcOg2XYadHpZNakgFDHzfQJ75C4S3Vy0I9m9xZiiZgqhR9dQd1YnFal/E30i4FgpRSVtRSw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/daisyui/-/daisyui-2.18.1.tgz}
+    id: registry.npmmirror.com/daisyui/2.18.1
+    name: daisyui
+    version: 2.18.1
+>>>>>>> 0054911 (add jsconfig)
     peerDependencies:
       autoprefixer: ^10.0.2
       postcss: ^8.1.6
@@ -545,10 +564,17 @@ packages:
     name: dlv
     version: 1.1.3
 
+<<<<<<< HEAD
   registry.npmmirror.com/electron-to-chromium/1.4.180:
     resolution: {integrity: sha512-7at5ash3FD9U5gPa3/wPr6OdiZd/zBjvDZaaHBpcqFOFUhZiWnb7stkqk8xUFL9H9nk7Yok5vCCNK8wyC/+f8A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.180.tgz}
     name: electron-to-chromium
     version: 1.4.180
+=======
+  registry.npmmirror.com/electron-to-chromium/1.4.182:
+    resolution: {integrity: sha512-OpEjTADzGoXABjqobGhpy0D2YsTncAax7IkER68ycc4adaq0dqEG9//9aenKPy7BGA90bqQdLac0dPp6uMkcSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.182.tgz}
+    name: electron-to-chromium
+    version: 1.4.182
+>>>>>>> 0054911 (add jsconfig)
 
   registry.npmmirror.com/esbuild-android-64/0.14.48:
     resolution: {integrity: sha512-3aMjboap/kqwCUpGWIjsk20TtxVoKck8/4Tu19rubh7t5Ra0Yrpg30Mt1QXXlipOazrEceGeWurXKeFJgkPOUg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/esbuild-android-64/-/esbuild-android-64-0.14.48.tgz}
@@ -1235,13 +1261,6 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: registry.npmmirror.com/is-number/7.0.0
-
-  registry.npmmirror.com/type-fest/2.13.1:
-    resolution: {integrity: sha512-hXYyrPFwETT2swFLHeoKtJrvSF/ftG/sA15/8nGaLuaDGfVAaq8DYFpu4yOyV4tzp082WqnTEoMsm3flKMI2FQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/type-fest/-/type-fest-2.13.1.tgz}
-    name: type-fest
-    version: 2.13.1
-    engines: {node: '>=12.20'}
-    dev: false
 
   registry.npmmirror.com/update-browserslist-db/1.0.4_browserslist@4.21.1:
     resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.0.4.tgz}
