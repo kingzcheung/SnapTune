@@ -61,7 +61,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="flex justify-center content-center pt-32" else>
+    <div class="flex justify-center content-center pt-32" v-else>
       <div
         class="
           w-40

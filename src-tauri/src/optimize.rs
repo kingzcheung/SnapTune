@@ -21,19 +21,29 @@ impl Optimizer for Png {
 
 pub struct Jpeg;
 
-// impl Optimizer for Jpeg {
-//     fn optimize(&self,data: &[u8],level:u8)->Result<Vec<u8>,OptimizeError> {
+impl Optimizer for Jpeg {
+    fn optimize(&self,data: &[u8],level:u8)->Result<Vec<u8>,OptimizeError> {
 
-//         image_compressor::Compressor::new(origin_dir, dest_dir, cal_factor_func)
+        // let result = std::panic::catch_unwind(|| {
+        //     let mut comp = mozjpeg::Compress::new(mozjpeg::ColorSpace::JCS_RGB);
+        
+        //     comp.set_size(width, height);
+        //     comp.set_mem_dest();
+        //     comp.start_compress();
+        
+        //     // replace with your image data
+        //     let pixels = vec![0; width * height * 3];
+        //     assert!(comp.write_scanlines(&pixels[..]));
+        
+        //     comp.finish_compress();
+        //     let jpeg_bytes = comp.data_to_vec()?;
+        //     // write to file, etc.
+        //     Ok(jpeg_bytes)
+        // })?;
 
-//     //     std::panic::catch_unwind(|| {
-//     //     let mut comp = mozjpeg::Compress::new(mozjpeg::ColorSpace::JCS_RGB);
-//     //     comp.set_mem_dest();
-//     //     comp.start_compress();
-//     // })?;
-//     Ok(vec![])
-//     }
-// }
+    Ok(vec![])
+    }
+}
 
 
 
