@@ -1,16 +1,17 @@
 pub mod error;
 use oxipng::Options;
+use turbojpeg::{compress_image, decompress_image};
 
 use self::error::OptimizeError;
 
 pub trait Optimizer {
-    fn optimize(&self,data: &[u8],level:u8)->Result<Vec<u8>,OptimizeError>;
+    fn optimize(&self, data: &[u8], level: u8) -> Result<Vec<u8>, OptimizeError>;
 }
 
 pub struct Png;
 
 impl Optimizer for Png {
-    fn optimize(&self,data: &[u8],level:u8)->Result<Vec<u8>,OptimizeError> {
+    fn optimize(&self, data: &[u8], level: u8) -> Result<Vec<u8>, OptimizeError> {
         let opts = Options::from_preset(level);
 
         let output = oxipng::optimize_from_memory(data, &opts)?;
@@ -22,30 +23,15 @@ impl Optimizer for Png {
 pub struct Jpeg;
 
 impl Optimizer for Jpeg {
-    fn optimize(&self,data: &[u8],level:u8)->Result<Vec<u8>,OptimizeError> {
-
-        // let result = std::panic::catch_unwind(|| {
-        //     let mut comp = mozjpeg::Compress::new(mozjpeg::ColorSpace::JCS_RGB);
-        
-        //     comp.set_size(width, height);
-        //     comp.set_mem_dest();
-        //     comp.start_compress();
-        
-        //     // replace with your image data
-        //     let pixels = vec![0; width * height * 3];
-        //     assert!(comp.write_scanlines(&pixels[..]));
-        
-        //     comp.finish_compress();
-        //     let jpeg_bytes = comp.data_to_vec()?;
-        //     // write to file, etc.
-        //     Ok(jpeg_bytes)
-        // })?;
-
-    Ok(vec![])
+    /// On mac, need install Yasm and jpeg-turbo.
+    fn optimize(&self, data: &[u8], level: u8) -> Result<Vec<u8>, OptimizeError> {
+        let quality = level as i32 * 10;
+        let image: image::RgbImage = decompress_image(data)?;
+        let jpeg_bytes = compress_image(&image, quality, turbojpeg::Subsamp::Sub2x2)?;
+        let jpeg_bytes = jpeg_bytes.to_vec();
+        Ok(jpeg_bytes)
     }
 }
-
-
 
 pub struct OptimizeImage {
     data: Vec<u8>,
@@ -53,16 +39,16 @@ pub struct OptimizeImage {
 }
 
 impl OptimizeImage {
-    pub fn new(filename: &str, compression_level: u8) -> Result<Self,OptimizeError> {
+    pub fn new(filename: &str, compression_level: u8) -> Result<Self, OptimizeError> {
         let p = std::path::Path::new(filename);
         let data = std::fs::read(p)?;
-        Ok(Self { compression_level, data })
+        Ok(Self {
+            compression_level,
+            data,
+        })
     }
 
-
-    pub fn optimize<T:Optimizer>(&self,fmt:T)->Result<Vec<u8>,OptimizeError> {
-        fmt.optimize(self.data.as_slice(),self.compression_level)
+    pub fn optimize<T: Optimizer>(&self, fmt: T) -> Result<Vec<u8>, OptimizeError> {
+        fmt.optimize(self.data.as_slice(), self.compression_level)
     }
 }
-
-
