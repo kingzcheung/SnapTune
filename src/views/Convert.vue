@@ -1,3 +1,19 @@
+<!--
+ Copyright 2022 kingzcheung
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
@@ -110,7 +126,8 @@ onMounted(() => {
 
 <template>
   <div class="convert">
-    <h1 class="text-2xl mb-5">图片转换</h1>
+    <h1 class="text-2xl mb-2">图片转换</h1>
+    <div class="h-px bg-base-300 dark:bg-gray-600 mb-2"></div>
     <div class="overflow-y-auto -m-3">
       <div
         class="flex item-center p-3 align-middle"
