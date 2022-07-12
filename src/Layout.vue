@@ -9,8 +9,8 @@ const currentTab = ref("Convert");
 const tabData = ref([
   { key: "Convert", icon: CashIcon, name: "图片转换" },
   { key: "Compression", icon: ArchiveIcon, name: "图片压缩" },
-  { key: "DPI", icon: CollectionIcon, name: "修改图片尺寸(DPI)" },
-  { key: "SuperResolution", icon: CubeTransparentIcon, name: "超分辨率" },
+  // { key: "DPI", icon: CollectionIcon, name: "修改图片尺寸(DPI)" },
+  // { key: "SuperResolution", icon: CubeTransparentIcon, name: "超分辨率" },
   { key: "Rename", icon: CollectionIcon, name: "批量重命名" },
 ]);
 

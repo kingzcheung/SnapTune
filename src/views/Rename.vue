@@ -3,7 +3,8 @@ import { ref, onMounted } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { get_file_name, ext } from "../utils";
-import Model from '../components/Model.vue';
+import Model from "../components/Model.vue";
+import { UploadIcon } from "@heroicons/vue/solid";
 
 const files = ref([]);
 const visibleModel = ref(false);
@@ -45,13 +46,28 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+      <div class="flex justify-center content-center pt-32" v-else>
+        <div
+          class="
+            w-40
+            h-40
+            border-dashed border-2
+            flex
+            justify-center
+            items-center
+          "
+        >
+          <upload-icon class="h-24 w-24 text-gray-500"></upload-icon>
+        </div>
+      </div>
       <model v-model="visibleModel">
-      <template v-slot:header>
-        选项
-      </template>
+        <template v-slot:header> 选项 </template>
         <div>
-            <input type="text" placeholder="Type here" class="input input-bordered input-sm w-full max-w-xs" />
-
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered input-sm w-full max-w-xs"
+          />
         </div>
       </model>
     </div>
