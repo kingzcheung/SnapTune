@@ -59,6 +59,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "image 0.24.2",
+ "libheif-rs",
  "oxipng",
  "serde",
  "serde_json",
@@ -349,15 +350,6 @@ name = "cloudflare-zlib-sys"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2040b6d1edfee6d75f172d81e2d2a7807534f3f294ce18184c70e7bb0105cd6f"
-dependencies = [
- "cc",
-]
-
-[[package]]
-name = "cmake"
-version = "0.1.48"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e8ad8cef104ac57b68b89df3208164d228503abbdce70f6880ffa3d970e7443a"
 dependencies = [
  "cc",
 ]
@@ -760,6 +752,17 @@ name = "embed_plist"
 version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4ef6b89e5b37196644d8796de5268852ff179b44e96276cf4290264843743bb7"
+
+[[package]]
+name = "enumn"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "052bc8773a98bd051ff37db74a8a25f00e6bfa2cbd03373390c72e9f7afbf344"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "exr"
@@ -1630,6 +1633,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "15f0c115fd181333eb7a82cf42e2ce2d9fac0ad06babd3ab79a9ec5bd66352fe"
 dependencies = [
  "libdeflate-sys",
+]
+
+[[package]]
+name = "libheif-rs"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9a28e98f7e0b934f2d240bbd438b02d82d2bbce34a97d5cf25767e2c2ff249f7"
+dependencies = [
+ "enumn",
+ "libheif-sys",
+]
+
+[[package]]
+name = "libheif-sys"
+version = "1.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c9426b3c799fe53b9636aac80ddc60efa5060c1959faee2e9d3edf0da6b8536a"
+dependencies = [
+ "libc",
 ]
 
 [[package]]
@@ -3620,9 +3642,9 @@ dependencies = [
 
 [[package]]
 name = "turbojpeg"
-version = "0.5.0"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b00a08c279e594569d3ccc191b07ed367254dce2b3182a64a48bbd0c2ad12253"
+checksum = "aa65ddea07f96d4a400d4da0ca8e88761ed61420bac29bdd1dc65538b2ef19ed"
 dependencies = [
  "image 0.24.2",
  "libc",
@@ -3632,14 +3654,12 @@ dependencies = [
 
 [[package]]
 name = "turbojpeg-sys"
-version = "0.2.0"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40e0d5855c03b6383eef32ac0c031392735392bcad966be992e90381473c39c9"
+checksum = "03ee42589a950ef4f0f03752c3878676ffe6ab5a468132784ba483b0efc257e6"
 dependencies = [
  "anyhow",
- "cmake",
  "libc",
- "pkg-config",
 ]
 
 [[package]]

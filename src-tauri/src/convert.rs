@@ -29,6 +29,7 @@ pub enum Format {
     WebP,
     AVIF,
     PNM,
+    HEIF,
 }
 
 
@@ -44,6 +45,8 @@ impl From<String> for Format {
             item if item =="WebP"=> Format::WebP,
             item if item =="AVIF"=> Format::AVIF,
             item if item =="PNM"=> Format::PNM,
+            item if item =="HEIF"=> Format::HEIF,
+            item if item =="HEIC"=> Format::HEIF,
             _=>Format::JPEG
         }
     }
@@ -63,6 +66,7 @@ impl Display for Format {
             Format::WebP => write!(f, "webp"),
             Format::AVIF => write!(f, "avif"),
             Format::PNM => write!(f, "pnm"),
+            Format::HEIF => write!(f, "heic"),
         }
     }
 }
