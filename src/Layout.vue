@@ -49,6 +49,7 @@ onMounted(() => {
         top-0
         bottom-0
         z-50
+        mt-10
       "
     >
       <!-- Sidebar content here -->

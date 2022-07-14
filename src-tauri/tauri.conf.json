@@ -62,7 +62,8 @@
         "title": "image2x",
         "width": 1000,
         "fileDropEnabled": true,
-        "decorations": true
+        "visible":true,
+        "decorations": false
       }
     ]
   }

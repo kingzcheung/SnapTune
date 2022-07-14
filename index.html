@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
-  <body class="h-full">
-    <div id="app" class="h-full"></div>
+  <body class="h-full ">
+    <div style="z-index: 999;" data-tauri-drag-region class="fixed inset-x-0 top-0 bg-black	flex p-2">
+      <div class="w-3.5 h-3.5 rounded-full mx-1 bg-red-500 " id="titlebar-close" alt="close"></div>
+      <div class="w-3.5 h-3.5 rounded-full mx-1 bg-yellow-400	" id="titlebar-minimize" alt="minimize"></div>
+      <div class="w-3.5 h-3.5 rounded-full mx-1 bg-green-500 " id="titlebar-maximize" alt="maximize"></div>
+    </div>
+    <div id="app" class="h-full mt-10"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
