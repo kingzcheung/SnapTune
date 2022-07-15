@@ -13,9 +13,11 @@
 // limitations under the License.
 
 
-use std::{fmt::Display, path::Path};
+use std::{fmt::Display, path::{Path, PathBuf}};
 
-use image::ImageFormat;
+use anyhow::Ok;
+use image::{ImageFormat, EncodableLayout};
+use libheif_rs::{HeifContext, CompressionFormat, EncoderQuality, ItemId, ColorSpace, RgbChroma};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -74,15 +76,26 @@ impl Display for Format {
 pub async fn image2x(x: Format, source: String) -> Result<String, anyhow::Error> {
     let path = Path::new(source.as_str());
     let path = path.with_extension(x.to_string().as_str());
-
-    let img = image::open(source.as_str())?;
-
     let err = anyhow::format_err!("格式错误");
     let image_format = ImageFormat::from_extension(x.to_string().as_str()).ok_or(err);
+    
 
+    let img = image::open(source.as_str())?;
     img.save_with_format(path, image_format?)?;
     println!("转换成功");
     Ok(source)
+}
+
+pub async fn heif2x(path: PathBuf, source: &str) ->Result<(), anyhow::Error> {
+    let ctx = HeifContext::read_from_file(source)?;
+    let handle = ctx.primary_image_handle()?;
+    let mut meta_ids: Vec<ItemId> = vec![0; 1];
+    handle.metadata_block_ids("Exif", &mut meta_ids);
+    let exif: Vec<u8> = handle.metadata(meta_ids[0])?;
+    
+    let img = image::load_from_memory(exif.as_bytes())?;
+    img.save_with_format(path, image_format?)?;
+    Ok(())
 }
 
 #[cfg(test)]
