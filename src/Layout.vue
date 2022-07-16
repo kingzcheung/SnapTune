@@ -71,7 +71,7 @@ onMounted(() => {
         <!-- this hidden checkbox controls the state -->
         <input
           type="checkbox"
-          data-act-class="ACTIVECLASS"
+          data-act-class="active"
           data-toggle-theme="dark,light"
           checked
         />
