@@ -24,6 +24,7 @@ import {
   XCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/vue/solid";
+import UploadEmpty from "../components/UploadEmpty.vue";
 
 const files = ref([]);
 const formats = ref([
@@ -31,11 +32,8 @@ const formats = ref([
   "JPEG",
   "GIF",
   "BMP",
-  "ICO",
   "TIFF",
   "WebP",
-  "AVIF",
-  "PNM",
 ]);
 const currentFormat = ref("PNG");
 
@@ -128,7 +126,7 @@ onMounted(() => {
   <div class="convert">
     <h1 class="text-2xl mb-2">图片转换</h1>
     <div class="h-px bg-base-300 dark:bg-gray-600 mb-2"></div>
-    <div class="overflow-y-auto -m-3">
+    <div class="overflow-y-auto -m-3" v-if="files.length > 0">
       <div
         class="flex item-center p-3 align-middle"
         :class="{ 'bg-base-100': i % 2 == 0 }"
@@ -157,6 +155,9 @@ onMounted(() => {
           </button>
         </div>
       </div>
+    </div>
+    <div class="flex items-center justify-center mt-40" v-else>
+      <upload-empty></upload-empty>
     </div>
     <div
       class="

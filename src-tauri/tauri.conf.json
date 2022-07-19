@@ -63,7 +63,7 @@
         "width": 1000,
         "fileDropEnabled": true,
         "visible":true,
-        "decorations": false
+        "decorations": true
       }
     ]
   }

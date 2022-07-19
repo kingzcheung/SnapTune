@@ -14,20 +14,6 @@
  limitations under the License.
 -->
 <script setup>
-import { appWindow } from "@tauri-apps/api/window";
-import { onMounted } from "vue";
-
-onMounted(() => {
-  document
-    .getElementById("titlebar-minimize")
-    .addEventListener("click", () => appWindow.minimize());
-  document
-    .getElementById("titlebar-maximize")
-    .addEventListener("click", () => appWindow.toggleMaximize());
-  document
-    .getElementById("titlebar-close")
-    .addEventListener("click", () => appWindow.close());
-});
 </script>
 <template>
   <router-view></router-view>
