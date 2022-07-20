@@ -59,7 +59,7 @@
         "fullscreen": false,
         "height": 720,
         "resizable": true,
-        "title": "image2x",
+        "title": "",
         "width": 1000,
         "fileDropEnabled": true,
         "visible":true,
