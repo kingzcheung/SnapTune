@@ -19,8 +19,8 @@ import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { get_file_name, ext } from "../utils";
-import { open } from '@tauri-apps/api/dialog';
-import { appDir } from '@tauri-apps/api/path';
+import { open,message } from '@tauri-apps/api/dialog';
+import { homeDir } from '@tauri-apps/api/path';
 
 import {
   CheckCircleIcon,
@@ -38,7 +38,9 @@ const formats = ref([
   "TIFF",
   "WebP",
 ]);
-const currentFormat = ref("PNG");
+
+// 选择输出的格式
+const outputFormat = ref("PNG");
 
 const output_dir = ref("");
 const is_custom_dir = ref(false)
@@ -48,21 +50,18 @@ const is_custom_dir = ref(false)
 // 转换的加载动画状态
 const convertLoading = ref(false);
 
-
-
-
 const selectFormat = (format) => {
-  currentFormat.value = format;
+  outputFormat.value = format;
 };
 
 const onClick = () => {
   if (files.value.length == 0) {
-
+    message('直接将图片拖拽到窗口即可。', { title: '请选择压缩的图片', type: 'error' });
     return;
   }
 
-  if (!currentFormat.value) {
-
+  if (!outputFormat.value) {
+    message('支持常用格式，如: JPEG/PNG/WEBP/GIF/BMP', { title: '请选择压缩格式', type: 'error' });
     return;
   }
 
@@ -74,9 +73,10 @@ const onClick = () => {
 
   files.value.forEach((file, index) => {
     invoke("image2x_command", {
-      x: currentFormat.value,
       index: index,
+      outputFormat: outputFormat.value,
       source: file.file,
+      sourceFormat: ext(file.file)
     })
       .then((index) => {
         files.value[index].status = 1;
@@ -92,7 +92,7 @@ const chooseDir = async (event) => {
   const selected = await open({
     directory: true,
     multiple: false,
-    defaultPath: await appDir(),
+    defaultPath: await homeDir(),
   });
   if (Array.isArray(selected)) {
     // user selected multiple directories
@@ -166,7 +166,7 @@ onMounted(() => {
           <div class="">
             <div class="flex items-center dropdown dropdown-right dropdown-end">
               <label tabindex="0" class="btn btn-sm m-1">{{
-                  currentFormat ? `${currentFormat}` : "选择格式"
+                  outputFormat ? `${outputFormat}` : "选择格式"
               }}</label>
               <div tabindex="0" class="
             dropdown-content
@@ -180,7 +180,7 @@ onMounted(() => {
                 <div class="card-body">
                   <div class="grid grid-cols-3 gap-4">
                     <button @click="selectFormat(format)" v-for="format in formats" :key="format"
-                      class="btn text-md btn-sm" :class="{ 'btn-active btn-accent': format === currentFormat }">
+                      class="btn text-md btn-sm" :class="{ 'btn-active btn-accent': format === outputFormat }">
                       {{ format }}
                     </button>
                   </div>

@@ -25,10 +25,10 @@ fn main() {
 
 
 #[tauri::command]
-async fn image2x_command(x: Format,index:i32,source: String)->Result<i32, String> {
-  match image2x(x, source).await {
+async fn image2x_command(index:i32,output_format:Format,source: String,source_format: Format)->Result<i32, String> {
+  match image2x(output_format, source.as_str(),source_format).await {
     Ok(_) => Ok(index),
-    Err(e) => Err(e.to_string()),
+    Err(e) => Err(format!("转换错误:{}",e)),
   }
 }
 
