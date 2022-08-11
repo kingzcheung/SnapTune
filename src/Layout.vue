@@ -8,9 +8,8 @@ const currentTab = ref("Convert");
 const tabData = ref([
   { key: "Convert", icon: CashIcon, name: "通用格式转换" },
   { key: "Compression", icon: ArchiveIcon, name: "图片压缩" },
-  // { key: "DPI", icon: CollectionIcon, name: "修改图片尺寸(DPI)" },
-  // { key: "SuperResolution", icon: CubeTransparentIcon, name: "超分辨率" },
   { key: "Rename", icon: CollectionIcon, name: "批量重命名" },
+  { key: "Detection", icon: CollectionIcon, name: "商品裁剪" },
 ]);
 
 const clickTab = (key) => {
@@ -30,7 +29,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="relative h-full overflow-x-hidden overscroll-none flex bg-white"
+    class="relative h-full overflow-x-hidden overscroll-none flex border-gray-500"
   >
     <ul
       class="
@@ -39,7 +38,7 @@ onMounted(() => {
         w-60
         text-base-content
         bg-base-100
-        border-gray-400
+        border-gray-500
         flex-none
         h-screen
         fixed
@@ -63,7 +62,7 @@ onMounted(() => {
       </li>
     </ul>
 
-    <div class="ml-60 relative flex-1 p-3">
+    <div class="ml-60 relative flex-1 p-4">
 
       <router-view></router-view>
     </div>

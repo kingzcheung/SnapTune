@@ -2,7 +2,7 @@
 [target.aarch64-apple-darwin]
 rustflags = [
   "-L", "/opt/homebrew/Cellar/jpeg-turbo/2.1.3/lib",
-  "-L", "/opt/homebrew/Cellar/libheif/1.12.0_1/lib"
+  "-L", "/opt/homebrew/Cellar/libheif/1.12.0_2/lib"
 ]
 
 [target.x86_64-apple-darwin]

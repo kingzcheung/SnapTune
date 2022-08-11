@@ -124,9 +124,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="convert">
-    <!-- <div class="h-px bg-base-100 dark:bg-gray-600 mb-2"></div> -->
-    <div class="overflow-y-auto -m-3" v-if="files.length > 0">
+  <div class="convert text-sm">
+    <div class="border-l-4 pl-2 leading-8 font-bold border-indigo-500 mb-2 text-lg">通用格式转换</div>
+    <div class="overflow-y-auto bg-white  rounded-lg" v-if="files.length > 0">
       <div class="flex item-center p-3 align-middle" :class="{ 'bg-base-100': i % 2 == 0 }" v-for="(file, i) of files"
         :key="file.file">
         <div class="truncate w-80 flex-1">{{ file.filename }}</div>
@@ -143,7 +143,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-center mt-40" v-else>
+    <div class="flex items-center justify-center py-40 bg-white rounded-lg" v-else>
       <upload-empty></upload-empty>
     </div>
     <div class="

@@ -33,6 +33,11 @@ const router = createRouter({
                     name: "Rename",
                     component: () => import("../views/Rename.vue")
                 },
+                {
+                    path: '/detection',
+                    name: "Detection",
+                    component: () => import("../views/Detection.vue")
+                },
             ]
         }
     ]
