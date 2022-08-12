@@ -18,6 +18,7 @@ use serde::Serialize;
 
 pub mod convert;
 pub mod optimize;
+pub mod yolo;
 
 #[derive(Debug, Serialize)]
 pub struct Meta {
