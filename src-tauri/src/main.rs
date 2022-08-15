@@ -104,7 +104,8 @@ async fn detection_command(onnx_file: String, from: String, to: String) -> Resul
                         let mut file = std::fs::File::create(path.clone()).unwrap();
                         let _ = file.write(bytes.as_bytes());
                       message.push_str("识别成功\n");
-                      extra.push(path)
+                      extra.push(path);
+                      msg_type = MessageType::Success;
                     }
                     Err(e) => {
                       message.push_str(&e.to_string());

@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { open, message } from '@tauri-apps/api/dialog';
 import { downloadDir } from '@tauri-apps/api/path';
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { readDir, BaseDirectory } from '@tauri-apps/api/fs';
+import { convertFileSrc } from '@tauri-apps/api/tauri';
 
 const detection = ref({
     onnx_file: '',
@@ -26,6 +27,27 @@ const imgExt = new Array(".png", ".jpg", ".jpeg");
 
 
 const currentProgress = ref(-1);
+
+const percentageProgress = computed(()=>{
+    if (currentProgress.value < 0) {
+        return 0
+    }
+    const len = detection.value.from_files.length;
+    console.log(currentProgress.value,len)
+    if (len == 0) {
+        return 0
+    }
+    let res =  currentProgress.value / len * 100;
+
+    return res.toFixed(2)
+})
+
+const showImage = ref([])
+const showImageUrls = computed(()=>{
+    return showImage.value.map(v=>{
+        return convertFileSrc(v);
+    })
+})
 
 const chooseOnnxFile = async () => {
     const selected = await open({
@@ -66,7 +88,6 @@ const chooseOutputDir = async () => {
         multiple: false,
         defaultPath: await downloadDir(),
     });
-    console.log(selected)
     if (selected) {
         detection.value.output = selected;
     }
@@ -83,6 +104,9 @@ const startHandle = () => {
             to: detection.value.output,
         }).then((res) => {
             logs.value.push(res)
+            if (res.extra.length > 0) {
+                showImage.value = res.extra
+            }
         }).catch((error) => {
             logs.value.push({message:error,extra:[],msgType:"Error"})
         }).finally(() => {
@@ -126,18 +150,25 @@ const startHandle = () => {
                     <span class="ml-1" @click="startHandle">开始</span>
                 </button>
                 <div class="mr-2 w-24" v-if="currentProgress >= 0">进度: </div>
-                <div class="mx-2 flex-1" v-if="currentProgress >= 0">
+                <div class="mx-2 flex-1 flex items-center" v-if="currentProgress >= 0">
                     <progress class="progress progress-primary w-full" :value="currentProgress"
                         :max="detection.from_files.length"></progress>
+                        <span class="ml-2">{{percentageProgress}}%</span>
                 </div>
             </div>
 
-            <div class="p-4 bg-gray-600 text-gray-300 rounded-lg overflow-x-hidden max-h-64">
+            <div class="p-4 bg-gray-600 text-gray-300 rounded-lg overflow-x-hidden max-h-64 mb-4">
                 <p class="overflow-ellipsis truncate" v-if="logs.length > 0" v-for="(log, i) of logs" :key="i">
                     <span class="mr-1"> > </span>
-                    <span>{{ log }}</span>
+                    <span class="{'text-yellow-400':log.msg_type=='Warning','text-green-600':log.msg_type=='Success'}">{{ log.message }}</span>
                 </p>
                 <p v-else>暂时日志</p>
+            </div>
+            <div class="flex items-center justify-center">
+                <div v-for="(img,i) of showImageUrls" :key="i" class="max-w-xs">
+                    <img :src="img" />
+                </div>
+               
             </div>
         </div>
     </div>
