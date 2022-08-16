@@ -1,3 +1,4 @@
+#![allow(dead_code,clippy::unnecessary_mut_passed,clippy::needless_range_loop,unused_mut)]
 use anyhow::{bail};
 use opencv::{
     core::{self, MatExprTraitConst, MatTrait, MatTraitConst},

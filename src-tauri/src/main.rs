@@ -58,6 +58,7 @@ async fn file_metadata_command(files: Vec<String>) -> Result<Vec<Meta>, String> 
     }
 }
 
+#[allow(dead_code)]
 #[derive(serde::Serialize)]
 enum MessageType {
     Info,
@@ -85,7 +86,7 @@ async fn detection_command(onnx_file: String, from: String, to: String) -> Resul
         Ok(dets) => {
             let mut i = 0;
             let mut message = String::new();
-            let mut msg_type = MessageType::Warning;
+            let mut msg_type = MessageType::Info;
             let mut extra = vec![];
             if dets.detections.is_empty() {
               message.push_str(format!("未检测到有商品: {}",from).as_str());

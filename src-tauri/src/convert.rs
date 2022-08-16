@@ -18,7 +18,7 @@ use std::{
 };
 
 use anyhow::Ok;
-use image::{EncodableLayout, ImageFormat, RgbImage, ImageBuffer};
+use image::{ImageFormat, RgbImage, ImageBuffer};
 use libheif_rs::{HeifContext, ItemId, ColorSpace, RgbChroma};
 use serde::{Deserialize, Serialize};
 
