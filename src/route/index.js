@@ -29,11 +29,6 @@ const router = createRouter({
                     component: () => import("../views/SuperResolution.vue")
                 },
                 {
-                    path: '/rename',
-                    name: "Rename",
-                    component: () => import("../views/Rename.vue")
-                },
-                {
                     path: '/detection',
                     name: "Detection",
                     component: () => import("../views/Detection.vue")

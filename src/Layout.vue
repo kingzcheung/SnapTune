@@ -1,15 +1,14 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { CollectionIcon,CashIcon,ArchiveIcon,CubeTransparentIcon } from "@heroicons/vue/solid";
+import { DuplicateIcon,CashIcon,ArchiveIcon,ScissorsIcon } from "@heroicons/vue/solid";
 const route = useRoute();
 const router = useRouter();
 const currentTab = ref("Convert");
 const tabData = ref([
   { key: "Convert", icon: CashIcon, name: "通用格式转换" },
   { key: "Compression", icon: ArchiveIcon, name: "图片压缩" },
-  { key: "Rename", icon: CollectionIcon, name: "批量重命名" },
-  { key: "Detection", icon: CollectionIcon, name: "商品裁剪" },
+  { key: "Detection", icon: ScissorsIcon, name: "商品裁剪" },
 ]);
 
 const clickTab = (key) => {
@@ -56,7 +55,7 @@ onMounted(() => {
           @click="clickTab(t.key)"
           :class="{ 'bg-primary text-gray-50': t.key == currentTab }"
         >
-          <component class="h-5 w-5 text-base-content" :is="t.icon"></component>
+          <component class="h-5 w-5 text-base-content" :class="{ 'text-gray-50': t.key == currentTab }" :is="t.icon"></component>
           <span class="ml-1">{{ t.name }}</span>
         </a>
       </li>

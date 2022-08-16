@@ -19,8 +19,9 @@ import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { get_file_name, ext } from "../utils";
-import { open,message } from '@tauri-apps/api/dialog';
+import { open, message } from '@tauri-apps/api/dialog';
 import { homeDir } from '@tauri-apps/api/path';
+
 
 import {
   CheckCircleIcon,
@@ -126,45 +127,16 @@ onMounted(() => {
 <template>
   <div class="convert text-sm">
     <div class="border-l-4 pl-2 leading-8 font-bold border-indigo-500 mb-2 text-lg">通用格式转换</div>
-    <div class="overflow-y-auto bg-white  rounded-lg" v-if="files.length > 0">
-      <div class="flex item-center p-3 align-middle" :class="{ 'bg-base-100': i % 2 == 0 }" v-for="(file, i) of files"
-        :key="file.file">
-        <div class="truncate w-80 flex-1">{{ file.filename }}</div>
-        <div class="px-2">{{ file.type }}</div>
-        <div class="px-4 self-center">
-          <check-circle-icon v-if="file.status == 1" class="h-5 w-5 text-green-500"></check-circle-icon>
-          <x-circle-icon v-if="file.status == -1" class="h-5 w-5 text-red-500"></x-circle-icon>
-          <exclamation-circle-icon v-if="file.status == 0" class="h-5 w-5 text-gray-500"></exclamation-circle-icon>
-        </div>
-        <div class="ml-2">
-          <button class="btn btn-xs btn-link" @click="deleteItem(i)">
-            删除
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="flex items-center justify-center py-40 bg-white rounded-lg" v-else>
-      <upload-empty></upload-empty>
-    </div>
     <div class="
-        absolute
-        z-50
-        left-0
-        right-0
-        bottom-0
-        bg-gray-200
         w-full
         flex
         items-stretch
-        border-t
-        border-gray-300	
-        border-solid
       ">
       <div class="flex-1 pl-1 text-sm my-2">
         <div class="flex items-start justify-start">
           <span class="my-2.5 mr-2">选择格式: </span>
           <div class="">
-            <div class="flex items-center dropdown dropdown-right dropdown-end">
+            <div class="flex items-center dropdown dropdown-right dropdown-start">
               <label tabindex="0" class="btn btn-sm m-1">{{
                   outputFormat ? `${outputFormat}` : "选择格式"
               }}</label>
@@ -191,7 +163,7 @@ onMounted(() => {
         </div>
         <div class="flex items-center justify-start">
           <span class="my-2.5 mr-2">输出目录: </span>
-          <div class="flex-1 flex items-center">
+          <div class="flex items-center">
             <label class="cursor-pointer flex items-center" @click="is_custom_dir = false">
               <input type="radio" name="radio-6" class="radio checked:bg-gray-500 scale-75" :checked="!is_custom_dir" />
               <span class="label-text  justify-self-start">原文件夹</span>
@@ -207,23 +179,39 @@ onMounted(() => {
               <button v-if="is_custom_dir" class="btn btn-sm" @click="chooseDir">选择目录</button>
             </div>
           </div>
+          <button class="btn btn-sm btn-primary ml-4" @click="onClick">
+            <span>转 换</span>
+            <!-- SwitchHorizontalIcon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+          </button>
+
         </div>
 
       </div>
-      <div class="flex items-center px-1 bg-primary ml-2 cursor-pointer" @click="onClick">
-        <span class="text-primary-content font-bold px-8 text-2xl">转换</span>
-        <svg v-if="convertLoading" t="1656508933337" class="icon animate-spin" viewBox="0 0 1024 1024" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" p-id="1306" width="24" height="24">
-          <path
-            d="M834.7648 736.3584a5.632 5.632 0 1 0 11.264 0 5.632 5.632 0 0 0-11.264 0z m-124.16 128.1024a11.1616 11.1616 0 1 0 22.3744 0 11.1616 11.1616 0 0 0-22.3744 0z m-167.3216 65.8944a16.7936 16.7936 0 1 0 33.6384 0 16.7936 16.7936 0 0 0-33.6384 0zM363.1616 921.6a22.3744 22.3744 0 1 0 44.7488 0 22.3744 22.3744 0 0 0-44.7488 0z m-159.744-82.0224a28.0064 28.0064 0 1 0 55.9616 0 28.0064 28.0064 0 0 0-56.0128 0zM92.672 700.16a33.6384 33.6384 0 1 0 67.2256 0 33.6384 33.6384 0 0 0-67.2256 0zM51.2 528.9984a39.168 39.168 0 1 0 78.336 0 39.168 39.168 0 0 0-78.336 0z m34.1504-170.0864a44.8 44.8 0 1 0 89.6 0 44.8 44.8 0 0 0-89.6 0zM187.904 221.7984a50.432 50.432 0 1 0 100.864 0 50.432 50.432 0 0 0-100.864 0zM338.432 143.36a55.9616 55.9616 0 1 0 111.9232 0 55.9616 55.9616 0 0 0-111.9744 0z m169.0112-4.9152a61.5936 61.5936 0 1 0 123.2384 0 61.5936 61.5936 0 0 0-123.2384 0z m154.7776 69.632a67.1744 67.1744 0 1 0 134.3488 0 67.1744 67.1744 0 0 0-134.3488 0z m110.0288 130.816a72.8064 72.8064 0 1 0 145.5616 0 72.8064 72.8064 0 0 0-145.5616 0z m43.7248 169.472a78.3872 78.3872 0 1 0 156.8256 0 78.3872 78.3872 0 0 0-156.8256 0z"
-            fill="#cccccc" p-id="1307"></path>
-        </svg>
-        <svg v-else t="1656476104531" class="icon" viewBox="0 0 1024 1024" version="1.1"
-          xmlns="http://www.w3.org/2000/svg" p-id="2198" width="32" height="18">
-          <path d="M760.768 576L384 931.84 469.76 1024 1024 515.392 474.048 0 384 98.88 753.6 448H0v128h760.768z"
-            fill="#cccccc" p-id="2199"></path>
-        </svg>
+    </div>
+    <div class="overflow-y-auto bg-white  rounded-lg" v-if="files.length > 0">
+      <div class="flex item-center p-3 align-middle" :class="{ 'bg-base-100': i % 2 == 0 }" v-for="(file, i) of files"
+        :key="file.file">
+        <div class="truncate w-80 flex-1">{{ file.filename }}</div>
+        <div class="px-2">{{ file.type }}</div>
+        <div class="px-4 self-center">
+          <check-circle-icon v-if="file.status == 1" class="h-5 w-5 text-green-500"></check-circle-icon>
+          <x-circle-icon v-if="file.status == -1" class="h-5 w-5 text-red-500"></x-circle-icon>
+          <exclamation-circle-icon v-if="file.status == 0" class="h-5 w-5 text-gray-500"></exclamation-circle-icon>
+        </div>
+        <div class="ml-2">
+          <button class="btn btn-xs btn-link" @click="deleteItem(i)">
+            删除
+          </button>
+        </div>
       </div>
+    </div>
+    <div class="flex items-center justify-center py-20 bg-white rounded-lg" v-else>
+      <upload-empty></upload-empty>
     </div>
   </div>
 </template>

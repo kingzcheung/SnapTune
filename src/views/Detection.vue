@@ -133,7 +133,7 @@ const startHandle = () => {
 
             </div>
             <div class="flex items-center mb-2">
-                <div class="mr-2 w-24">转出目录: </div>
+                <div class="mr-2 w-24">输出目录: </div>
                 <div class="mx-2" v-if="detection.output">{{ detection.output }}</div>
                 <button class="btn btn-sm" @click="chooseOutputDir">请选择</button>
             </div>
@@ -162,7 +162,7 @@ const startHandle = () => {
                     <span class="mr-1"> > </span>
                     <span class="{'text-yellow-400':log.msg_type=='Warning','text-green-600':log.msg_type=='Success'}">{{ log.message }}</span>
                 </p>
-                <p v-else>暂时日志</p>
+                <p v-else>暂无日志</p>
             </div>
             <div class="flex items-center justify-center">
                 <div v-for="(img,i) of showImageUrls" :key="i" class="max-w-xs">
