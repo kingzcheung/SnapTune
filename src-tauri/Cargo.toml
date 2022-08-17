@@ -26,9 +26,9 @@ oxipng = "^5.0"
 # compressed JPEG images.
 turbojpeg = {version = "0.4.2", features = ["image"] }
 libheif-rs = "^0.15"
-opencv = "0.66"
-lazy_static = "1.4.0"
-chrono = "0.4.1"
+opencv = "^0.66"
+lazy_static = "^1.4.0"
+chrono = "^0.4.1"
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL

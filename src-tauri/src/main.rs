@@ -3,11 +3,11 @@
     windows_subsystem = "windows"
 )]
 
-use std::{io::Write};
+use std::io::Write;
 
 use app::{
     convert::{image2x, Format},
-    file_metadata,
+    file_metadata, image_optimize,
     yolo::Yolov5,
     Meta,
 };
@@ -31,6 +31,7 @@ fn main() {
             image2x_command,
             file_metadata_command,
             detection_command,
+            image_optimize_command,
         ])
         .menu(tauri::Menu::os_default(&context.package_info().name))
         .run(context)
@@ -58,6 +59,13 @@ async fn file_metadata_command(files: Vec<String>) -> Result<Vec<Meta>, String> 
     }
 }
 
+#[tauri::command]
+async fn image_optimize_command(filename: String, level: u8) -> Result<usize, String> {
+    image_optimize(filename, level)
+        .await
+        .map_err(|op| op.to_string())
+}
+
 #[allow(dead_code)]
 #[derive(serde::Serialize)]
 enum MessageType {
@@ -69,13 +77,17 @@ enum MessageType {
 
 #[derive(serde::Serialize)]
 struct DetectionResponse {
-  message: String,
-  extra: Vec<String>,
-  msg_type: MessageType
+    message: String,
+    extra: Vec<String>,
+    msg_type: MessageType,
 }
 
 #[tauri::command]
-async fn detection_command(onnx_file: String, from: String, to: String) -> Result<DetectionResponse, String> {
+async fn detection_command(
+    onnx_file: String,
+    from: String,
+    to: String,
+) -> Result<DetectionResponse, String> {
     let mut yolo = Yolov5::new(onnx_file).map_err(|_| "加载 onnx 错误".to_string())?;
 
     let conf_thresh = 0.5;
@@ -89,35 +101,45 @@ async fn detection_command(onnx_file: String, from: String, to: String) -> Resul
             let mut msg_type = MessageType::Info;
             let mut extra = vec![];
             if dets.detections.is_empty() {
-              message.push_str(format!("未检测到有商品: {}",from).as_str());
+                message.push_str(format!("未检测到有商品: {}", from).as_str());
             }
             for det in dets.detections {
-              
                 let s = app::yolo::crop(&mat, det.xmin, det.ymin, det.xmax, det.ymax);
                 match s {
                     Ok(img) => {
                         let bytes =
                             app::yolo::encode(&img).map_err(|_| "转换图片数据错误".to_string())?;
-                      
+
                         let p = std::path::Path::new(from.as_str()).extension().unwrap();
                         let now = Local::now();
-                        let path = format!("{}/{}_{}_{}.{}", to, det.class, now.timestamp_millis(), i,p.to_str().unwrap_or("jpg"));
+                        let path = format!(
+                            "{}/{}_{}_{}.{}",
+                            to,
+                            det.class,
+                            now.timestamp_millis(),
+                            i,
+                            p.to_str().unwrap_or("jpg")
+                        );
                         let mut file = std::fs::File::create(path.clone()).unwrap();
                         let _ = file.write(bytes.as_bytes());
-                      message.push_str("识别成功\n");
-                      extra.push(path);
-                      msg_type = MessageType::Success;
+                        message.push_str("识别成功\n");
+                        extra.push(path);
+                        msg_type = MessageType::Success;
                     }
                     Err(e) => {
-                      message.push_str(&e.to_string());
-                      msg_type = MessageType::Warning;
-                      continue;
-                    },
+                        message.push_str(&e.to_string());
+                        msg_type = MessageType::Warning;
+                        continue;
+                    }
                 }
                 i += 1;
             }
-            
-            Ok(DetectionResponse{ message, extra, msg_type })
+
+            Ok(DetectionResponse {
+                message,
+                extra,
+                msg_type,
+            })
         }
         Err(e) => Err(format!("{:?}", e)),
     }

@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::fs;
+use std::{fs, io::Write};
 
+use optimize::{OptimizeImage, Jpeg, error::OptimizeError};
 use serde::Serialize;
 
 pub mod convert;
@@ -26,7 +27,7 @@ pub struct Meta {
     file: String,
 }
 
-// 获取文件meta信息
+/// 获取文件meta信息
 pub async fn file_metadata(files: Vec<String>) -> Result<Vec<Meta>, anyhow::Error> {
     let mut meta = vec![];
     for file in files {
@@ -37,4 +38,15 @@ pub async fn file_metadata(files: Vec<String>) -> Result<Vec<Meta>, anyhow::Erro
         })
     }
     Ok(meta)
+}
+
+/// JPEG / PNG 压缩
+pub async fn image_optimize(filename:String,compression_level:u8) ->Result<usize,OptimizeError>{
+    let oimg = OptimizeImage::new(filename.as_str(), compression_level)?;
+    let img = oimg.optimize(Jpeg)?;
+    let size = img.len();
+    // save
+    let mut f = std::fs::File::create(filename).map_err(OptimizeError::IOError)?;
+    f.write(img.as_slice()).map_err(OptimizeError::IOError)?;
+    Ok(size)
 }

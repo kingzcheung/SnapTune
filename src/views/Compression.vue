@@ -20,7 +20,15 @@ import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { get_file_name, ext, get_file_size } from "../utils";
 import { UploadIcon } from "@heroicons/vue/solid";
+import UploadEmpty from "../components/UploadEmpty.vue";
 const files = ref([]);
+
+
+const proportion = (v1, v2) => {
+  let p = (v2 - v1) / v1 * 100
+
+  return p.toFixed(2)
+}
 
 onMounted(() => {
   listen("tauri://file-drop", (event) => {
@@ -31,6 +39,10 @@ onMounted(() => {
         file: v,
         status: 0,
         type: ext(v) + " 图像",
+        file_size: 0,
+        opt_file_size: 0,
+        file_size_text: '',
+        opt_file_size_text: '',
       };
     });
     invoke("file_metadata_command", { files: event.payload })
@@ -38,58 +50,66 @@ onMounted(() => {
         if (meta && meta.length > 0) {
           files.value = files.value.map((file) => {
             let fsize = "";
+            let file_size = 0;
             for (let m of meta) {
-              console.log("m.filename == file.file", m.file == file.file);
-              console.log(m.file, file.file);
               if (m.file == file.file) {
                 fsize = get_file_size(m.file_size);
-                console.log("fsize", fsize,m.file_size);
-
+                file_size = m.file_size;
                 break;
               }
             }
             file.file_size_text = fsize;
-            console.log(file);
+            file.file_size = file_size;
             return file;
           });
         }
       })
       .catch((error) => console.error(error));
+
+    files.value.forEach(v => {
+      invoke('image_optimize_command', { filename: v.file, level: 7 })
+        .then((size) => {
+          v.opt_file_size = size
+          v.opt_file_size_text = get_file_size(size)
+        })
+    })
+
+
   });
 });
 </script>
 <template>
   <div class="compression">
-    <h1 class="text-2xl divide-white divide-y-2 mb-2">JPEG/PNG 压缩</h1>
-    <div class="h-px bg-base-300 dark:bg-gray-600 mb-2"></div>
-    <div class="overflow-y-auto -m-3 text-sm" v-if="files.length > 0">
-      <div
-        class="flex item-center justify-between p-3 align-middle"
-        :class="{ 'bg-base-100': i % 2 == 0 }"
-        v-for="(file, i) of files"
-        :key="i"
-      >
-        <div class="truncate max-w-xs">{{ file.filename }}</div>
+    <div class="border-l-4 pl-2 leading-8 font-bold border-indigo-500 mb-2 text-lg">JPEG/PNG 压缩</div>
+    <div class="overflow-y-auto text-sm bg-white rounded-lg p-4" v-if="files.length > 0">
+      <div class="flex item-center justify-between p-3 align-middle">
+        <div class="truncate max-w-xs w-40">文件</div>
+        <div class="truncate w-20 pl-2">类型</div>
+        <div class="truncate px-2 w-20 text-sm">优化前</div>
+        <div class="truncate pl-3 w-40 text-sm">
+          优化后
+        </div>
+      </div>
+      <div class="flex item-center justify-between p-3 align-middle" :class="{ 'bg-base-100': i % 2 == 0 }"
+        v-for="(file, i) of files" :key="i">
+        <div class="truncate max-w-xs w-40">{{ file.filename }}</div>
         <div class="truncate w-20 pl-2">{{ file.type }}</div>
-        <div class="truncate px-2 w-20 text-sm">{{file.file_size_text}}</div>
-        <div class="truncate pl-3 w-40 text-green-400 text-sm">
-          16.55KB (-50.45%)
+        <div class="truncate px-2 w-20 text-sm">{{ file.file_size_text }}</div>
+        <div class="truncate pl-3 w-40 text-sm" :class="{
+          'text-green-600': file.file_size > file.opt_file_size,
+          'text-gray-600': file.file_size == file.opt_file_size,
+          'text-red-600': file.file_size < file.opt_file_size,
+        }">
+          {{ file.opt_file_size_text }} ({{ proportion(file.file_size, file.opt_file_size) }}%)
         </div>
       </div>
     </div>
-    <div class="flex justify-center content-center pt-32" v-else>
-      <div
-        class="
-          w-40
-          h-40
-          border-dashed border-2
-          flex
-          justify-center
-          items-center
-        "
-      >
-        <upload-icon class="h-24 w-24 text-gray-500"></upload-icon>
-      </div>
+    <div class="flex items-center justify-center py-20 bg-white rounded-lg" v-else>
+      <upload-empty>
+        <template #content>
+          支持 JPEG / PNG
+        </template>
+      </upload-empty>
     </div>
   </div>
 </template>
