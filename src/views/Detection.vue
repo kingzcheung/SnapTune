@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { open, message } from '@tauri-apps/api/dialog';
-import { downloadDir } from '@tauri-apps/api/path';
+import { downloadDir,resolveResource } from '@tauri-apps/api/path';
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { readDir, BaseDirectory } from '@tauri-apps/api/fs';
@@ -13,6 +13,7 @@ const detection = ref({
     from_files: [],
     output: '',
 });
+const is_onnx_uploaded = ref(false)
 
 String.prototype.extension = function () {
     var ext = null;
@@ -59,6 +60,7 @@ const chooseOnnxFile = async () => {
         let ext = selected.extension()
         if (ext == '.onnx') {
             detection.value.onnx_file = selected;
+            is_onnx_uploaded.value = true;
         } else {
             await message('请选择正确的 ONNX 文件', { title: '选择文件错误', type: 'error' });
         }
@@ -95,7 +97,11 @@ const chooseOutputDir = async () => {
 
 const logs = ref([])
 
-const startHandle = () => {
+const startHandle = async () => {
+    let onnx_path = await resolveResource('models/best.onnx');
+    if(detection.value.onnx_file.length===0) {
+        detection.value.onnx_file = onnx_path
+    }
     currentProgress.value = 0
     detection.value.from_files.forEach(v => {
         invoke("detection_command", {
@@ -115,6 +121,10 @@ const startHandle = () => {
     })
 }
 
+onMounted(()=>{
+
+})
+
 </script>
 <template>
     <div class="text-sm">
@@ -122,8 +132,9 @@ const startHandle = () => {
         <div class="overflow-y-auto bg-white rounded-lg p-4">
             <div class="flex items-center mb-2">
                 <div class="mr-2 w-24">ONNX 模型: </div>
-                <div class="mx-2" v-if="detection.onnx_file">{{ detection.onnx_file }}</div>
-                <button class="btn btn-sm" @click="chooseOnnxFile">选择yolov5模型</button>
+                <div class="mx-2" v-if="is_onnx_uploaded">{{ detection.onnx_file }}</div>
+                <span class="mr-2" v-if="is_onnx_uploaded==false">使用默认或者</span>
+                <button class="btn btn-sm" @click="chooseOnnxFile">重新上传</button>
             </div>
 
             <div class="flex items-center mb-2">
