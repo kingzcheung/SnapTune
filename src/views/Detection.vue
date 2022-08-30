@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { open, message } from '@tauri-apps/api/dialog';
-import { downloadDir,resolveResource } from '@tauri-apps/api/path';
+import { downloadDir, resolveResource } from '@tauri-apps/api/path';
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { readDir, BaseDirectory } from '@tauri-apps/api/fs';
@@ -29,23 +29,23 @@ const imgExt = new Array(".png", ".jpg", ".jpeg");
 
 const currentProgress = ref(-1);
 
-const percentageProgress = computed(()=>{
+const percentageProgress = computed(() => {
     if (currentProgress.value < 0) {
         return 0
     }
     const len = detection.value.from_files.length;
-    console.log(currentProgress.value,len)
+    console.log(currentProgress.value, len)
     if (len == 0) {
         return 0
     }
-    let res =  currentProgress.value / len * 100;
+    let res = currentProgress.value / len * 100;
 
     return res.toFixed(2)
 })
 
 const showImage = ref([])
-const showImageUrls = computed(()=>{
-    return showImage.value.map(v=>{
+const showImageUrls = computed(() => {
+    return showImage.value.map(v => {
         return convertFileSrc(v);
     })
 })
@@ -99,7 +99,7 @@ const logs = ref([])
 
 const startHandle = async () => {
     let onnx_path = await resolveResource('models/best.onnx');
-    if(detection.value.onnx_file.length===0) {
+    if (detection.value.onnx_file.length === 0) {
         detection.value.onnx_file = onnx_path
     }
     currentProgress.value = 0
@@ -114,14 +114,14 @@ const startHandle = async () => {
                 showImage.value = res.extra
             }
         }).catch((error) => {
-            logs.value.push({message:error,extra:[],msgType:"Error"})
+            logs.value.push({ message: error, extra: [], msgType: "Error" })
         }).finally(() => {
             currentProgress.value++
         });
     })
 }
 
-onMounted(()=>{
+onMounted(() => {
 
 })
 
@@ -132,25 +132,25 @@ onMounted(()=>{
         <div class="overflow-y-auto bg-white rounded-lg p-4">
             <div class="flex items-center mb-2">
                 <div class="mr-2 w-24">ONNX 模型: </div>
-                <div class="mx-2" v-if="is_onnx_uploaded">{{ detection.onnx_file }}</div>
-                <span class="mr-2" v-if="is_onnx_uploaded==false">使用默认或者</span>
+                <div class="mx-2" v-if="is_onnx_uploaded">{{  detection.onnx_file  }}</div>
+                <span class="mr-2" v-if="is_onnx_uploaded == false">使用默认或者</span>
                 <button class="btn btn-sm" @click="chooseOnnxFile">重新上传</button>
             </div>
 
             <div class="flex items-center mb-2">
                 <div class="mr-2 w-24">输入目录: </div>
-                <div class="mx-2" v-if="detection.from">{{ detection.from }}</div>
+                <div class="mx-2" v-if="detection.from">{{  detection.from  }}</div>
                 <button class="btn btn-sm mr-2" @click="chooseImportDir">选择目录</button>
 
             </div>
             <div class="flex items-center mb-2">
                 <div class="mr-2 w-24">输出目录: </div>
-                <div class="mx-2" v-if="detection.output">{{ detection.output }}</div>
+                <div class="mx-2" v-if="detection.output">{{  detection.output  }}</div>
                 <button class="btn btn-sm" @click="chooseOutputDir">请选择</button>
             </div>
 
             <div class="flex items-center mb-4">
-                <button class="btn btn-sm" v-if="currentProgress == -1">
+                <button class="btn btn-sm" v-if="currentProgress == -1 || percentageProgress == 100">
                     <svg t="1660221713126" class="icon" viewBox="0 0 1024 1024" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" p-id="3612" width="16" height="16">
                         <path
@@ -160,26 +160,28 @@ onMounted(()=>{
                     </svg>
                     <span class="ml-1" @click="startHandle">开始</span>
                 </button>
-                <div class="mr-2 w-24" v-if="currentProgress >= 0">进度: </div>
-                <div class="mx-2 flex-1 flex items-center" v-if="currentProgress >= 0">
+                <div class="mr-2 w-24" v-if="currentProgress >= 0 && percentageProgress < 100">进度: </div>
+                <div class="mx-2 flex-1 flex items-center" v-if="currentProgress >= 0 && percentageProgress < 100">
                     <progress class="progress progress-primary w-full" :value="currentProgress"
                         :max="detection.from_files.length"></progress>
-                        <span class="ml-2">{{percentageProgress}}%</span>
+                    <span class="ml-2">{{ percentageProgress }}%</span>
                 </div>
+                <div class="text-green-600 mb-2 ml-2" v-if="percentageProgress == 100">处理完成。</div>
             </div>
-
             <div class="p-4 bg-gray-600 text-gray-300 rounded-lg overflow-x-hidden max-h-64 mb-4">
                 <p class="overflow-ellipsis truncate" v-if="logs.length > 0" v-for="(log, i) of logs" :key="i">
                     <span class="mr-1"> > </span>
-                    <span class="{'text-yellow-400':log.msg_type=='Warning','text-green-600':log.msg_type=='Success'}">{{ log.message }}</span>
+                    <span
+                        class="{'text-yellow-400':log.msg_type=='Warning','text-green-600':log.msg_type=='Success'}">{{
+                         log.message  }}</span>
                 </p>
                 <p v-else>暂无日志</p>
             </div>
             <div class="flex items-center justify-center">
-                <div v-for="(img,i) of showImageUrls" :key="i" class="max-w-xs">
+                <div v-for="(img, i) of showImageUrls" :key="i" class="max-w-xs">
                     <img :src="img" />
                 </div>
-               
+
             </div>
         </div>
     </div>
