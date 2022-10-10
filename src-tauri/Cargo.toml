@@ -26,7 +26,7 @@ oxipng = "^5.0"
 # compressed JPEG images.
 turbojpeg = {version = "0.4.2", features = ["image"] }
 libheif-rs = "^0.15"
-opencv = "^0.66"
+opencv = "^0.69"
 lazy_static = "^1.4.0"
 chrono = "^0.4.1"
 [features]
