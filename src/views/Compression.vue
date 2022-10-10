@@ -19,7 +19,7 @@ import { onMounted, ref, watch } from "vue";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { get_file_name, ext, get_file_size } from "../utils";
-import { UploadIcon } from "@heroicons/vue/solid";
+import { UploadIcon } from "@heroicons/vue/24/solid";
 import UploadEmpty from "../components/UploadEmpty.vue";
 const files = ref([]);
 

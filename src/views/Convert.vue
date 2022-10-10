@@ -27,7 +27,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ExclamationCircleIcon,
-} from "@heroicons/vue/solid";
+} from "@heroicons/vue/24/solid";;
 import UploadEmpty from "../components/UploadEmpty.vue";
 
 const files = ref([]);

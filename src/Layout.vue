@@ -1,13 +1,13 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { DuplicateIcon,CashIcon,ArchiveIcon,ScissorsIcon } from "@heroicons/vue/solid";
+import { ArchiveBoxIcon,ScissorsIcon,ArrowsRightLeftIcon } from "@heroicons/vue/24/solid";
 const route = useRoute();
 const router = useRouter();
 const currentTab = ref("Convert");
 const tabData = ref([
-  { key: "Convert", icon: CashIcon, name: "通用格式转换" },
-  { key: "Compression", icon: ArchiveIcon, name: "图片压缩" },
+  { key: "Convert", icon: ArrowsRightLeftIcon, name: "通用格式转换" },
+  { key: "Compression", icon: ArchiveBoxIcon, name: "图片压缩" },
   { key: "Detection", icon: ScissorsIcon, name: "商品裁剪" },
 ]);
 
