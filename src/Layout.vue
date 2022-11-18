@@ -42,7 +42,7 @@ onMounted(() => {
         h-screen
         fixed
         left-0
-        top-0
+        top-8
         bottom-0
         z-50
       "

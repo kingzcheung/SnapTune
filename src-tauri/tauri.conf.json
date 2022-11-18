@@ -65,7 +65,9 @@
         "width": 1000,
         "fileDropEnabled": true,
         "visible":true,
-        "decorations": true
+        "decorations": true,
+        "hiddenTitle": true,
+        "titleBarStyle": "Overlay"
       }
     ]
   }
