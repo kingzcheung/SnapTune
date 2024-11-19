@@ -1,74 +1,35 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "image2x",
+  "version": "0.1.0",
+  "identifier": "com.image2x.app",
   "build": {
-    "beforeBuildCommand": "pnpm build",
     "beforeDevCommand": "pnpm dev",
-    "devPath": "http://localhost:5173",
-    "distDir": "../dist",
-    "withGlobalTauri": true
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
   },
-  "package": {
-    "productName": "image2x",
-    "version": "0.1.0"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": true
-    },
-    "bundle": {
-      "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
-      "deb": {
-        "depends": []
-      },
-      "externalBin": [],
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "identifier": "com.kingzcheung.image2x",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [
-        "models/*"
-      ],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
-      }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
+  "app": {
     "windows": [
       {
-        "fullscreen": false,
-        "height": 720,
-        "resizable": true,
-        "title": "",
-        "width": 1000,
-        "fileDropEnabled": true,
-        "visible":true,
-        "decorations": true,
-        "hiddenTitle": true,
-        "titleBarStyle": "Overlay"
+        "title": "image2x",
+        "width": 800,
+        "height": 600
       }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
     ]
   }
 }
