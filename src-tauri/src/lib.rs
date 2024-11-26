@@ -81,7 +81,7 @@ async fn open_folder(path: String,app_handle: tauri::AppHandle) -> Result<(), Ap
     let shell = app_handle.shell();
     // shell.command("open").args([path]).output().await.unwrap();
     // tauri_plugin_shell::open::open(scope, path, with)
-    shell.open(path, None);
+    let _ = shell.open(path, None);
     Ok(())
 }
 
