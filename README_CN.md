@@ -15,10 +15,10 @@
 
 1. **克隆仓库**
 
-   ```sh
+```sh
    git clone https://github.com/yourusername/image2x.git
    cd image2x
-
+```
 安装依赖
 
 确保你已经安装了 Rust 工具链.
@@ -32,6 +32,10 @@ pnpm tauri build
 ## 预览
 ![预览](data/screenshot-20241126-174559.png)
 
+## 其他
+
+如果你想使用在线版本的有损压缩功能，请访问 [https://tinypng.ximei.me](https://tinypng.ximei.me)。
+这是一个纯前端的网站，不依赖后端服务。它的原理是基于 WASM 实现的图片压缩算法。
 
 ## 贡献
 欢迎贡献代码和提出改进建议！

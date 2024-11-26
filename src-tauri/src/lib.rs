@@ -1,10 +1,7 @@
 use std::path::{Path, PathBuf};
-use tauri::AppHandle;
 use tauri_plugin_shell::ShellExt;
-
 use quant::{jpeg::Jpeg, png::Png, Compression};
 use serde::{Deserialize, Serialize};
-use tokio::runtime::Handle;
 
 pub mod quant;
 #[derive(Debug, thiserror::Error)]

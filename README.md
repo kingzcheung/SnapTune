@@ -44,6 +44,12 @@
 
 ![Preview](data/screenshot-20241126-174559.png)
 
+
+## Other
+
+If you want to use the lossy compression feature of the online version, visit [https://tinypng.ximei.me](https://tinypng.ximei.me).
+This is a pure front-end website, does not rely on back-end services. Its principle is based on the image compression algorithm implemented by WASM.
+
 ## Contribution
 
 Contributions and suggestions are welcome! 
