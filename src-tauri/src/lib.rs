@@ -1,4 +1,7 @@
-use tauri::{TitleBarStyle, WebviewUrl, WebviewWindowBuilder};
+use tauri::{ WebviewUrl, WebviewWindowBuilder};
+
+#[cfg(target_os = "macos")]
+use tauri::TitleBarStyle;
 
 pub mod quant;
 pub mod convert;

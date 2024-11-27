@@ -23,6 +23,17 @@
 
 确保你已经安装了 Rust 工具链.
 
+
+#### ubuntu
+
+```sh
+sudo apt install libwebp-dev libssl-dev libgtk-3-dev libsoup2.4-dev libwebkit2gtk-4.1-dev nasm libturbojpeg0-dev
+
+export TURBOJPEG_STATIC=1
+
+```
+
+
 ```
 pnpm tauri build
 ```
