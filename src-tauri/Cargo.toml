@@ -27,8 +27,11 @@ tauri-plugin-fs = "2"
 imagequant = "4.3.3"
 lodepng = "3.10.7"
 turbojpeg = {version = "1.0", features = ["image"] }
-image = "0.25.5"
+image = {version = "0.25.5",features = [] }
 anyhow = "1.0.53"
 infer = "0.16.0"
 thiserror = "2"
 tokio = { version = "1.41.1",features = ["full"] }
+
+[target."cfg(target_os = \"macos\")".dependencies]
+cocoa = "0.26.0"

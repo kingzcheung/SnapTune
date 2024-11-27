@@ -1812,6 +1812,7 @@ name = "image2x"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cocoa",
  "image",
  "imagequant",
  "infer",
