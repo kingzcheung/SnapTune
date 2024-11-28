@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "image2x",
+  "productName": "SnapTune",
   "version": "0.1.0",
-  "identifier": "com.image2x.app",
+  "identifier": "com.snaptune.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",

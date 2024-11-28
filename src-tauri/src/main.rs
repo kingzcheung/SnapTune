@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    image2x_lib::run()
+    SnapTune_lib::run()
 }

@@ -15,7 +15,7 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .setup(|app| {
             let win_builder = WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
-                .title("Image2X")
+                .title("SnapTune")
                 .inner_size(1000.0, 700.0);
             // 仅在 macOS 时设置透明标题栏
             #[cfg(target_os = "macos")]

@@ -1,9 +1,9 @@
-# image2x
+# SnapTune
 [简体中文](./README_CN.md) | [English](./README.md)
 
 ## Introduction
 
-`image2x` is a multi-platform image processing tool designed to provide convenient image processing features. Currently, it supports lossy compression of JPG and PNG images, with plans to support more features in the future, such as format conversion.
+`SnapTune` is a multi-platform image processing tool designed to provide convenient image processing features. Currently, it supports lossy compression of JPG and PNG images, with plans to support more features in the future, such as format conversion.
 
 ## Main Features
 
@@ -17,8 +17,8 @@
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/kingzcheung/image2x.git
-   cd image2x
+   git clone https://github.com/kingzcheung/SnapTune.git
+   cd SnapTune
    ```
 
 2. **Install dependencies**

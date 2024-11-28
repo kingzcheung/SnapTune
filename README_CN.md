@@ -1,4 +1,4 @@
-# image2x
+# SnapTune
 [简体中文](./README_CN.md) | [English](./README.md)
 ## 介绍
 
@@ -16,8 +16,8 @@
 1. **克隆仓库**
 
 ```sh
-   git clone https://github.com/yourusername/image2x.git
-   cd image2x
+   git clone https://github.com/yourusername/SnapTune.git
+   cd SnapTune
 ```
 安装依赖
 

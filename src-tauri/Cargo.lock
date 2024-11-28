@@ -3,6 +3,30 @@
 version = 3
 
 [[package]]
+name = "SnapTune"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cocoa",
+ "image",
+ "imagequant",
+ "infer",
+ "lodepng",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-fs",
+ "tauri-plugin-persisted-scope",
+ "tauri-plugin-shell",
+ "tauri-plugin-store",
+ "thiserror 2.0.3",
+ "tokio",
+ "turbojpeg",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1814,30 +1838,6 @@ checksum = "e031e8e3d94711a9ccb5d6ea357439ef3dcbed361798bd4071dc4d9793fbe22f"
 dependencies = [
  "byteorder-lite",
  "quick-error",
-]
-
-[[package]]
-name = "image2x"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "cocoa",
- "image",
- "imagequant",
- "infer",
- "lodepng",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-fs",
- "tauri-plugin-persisted-scope",
- "tauri-plugin-shell",
- "tauri-plugin-store",
- "thiserror 2.0.3",
- "tokio",
- "turbojpeg",
 ]
 
 [[package]]
