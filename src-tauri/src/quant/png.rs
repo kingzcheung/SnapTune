@@ -1,6 +1,5 @@
 use super::Compression;
 
-
 pub struct Png;
 
 impl Compression for Png {
@@ -8,8 +7,6 @@ impl Compression for Png {
         quant_png(data, quality, 4)
     }
 }
-
-
 
 pub fn quant_png(data: &[u8], quality: u8, speed: i32) -> Result<Vec<u8>, anyhow::Error> {
     let bitmap = lodepng::decode32(data).map_err(anyhow::Error::from)?;
@@ -34,6 +31,8 @@ pub fn quant_png(data: &[u8], quality: u8, speed: i32) -> Result<Vec<u8>, anyhow
     let mut enc = lodepng::Encoder::new();
     enc.set_palette(&palette).map_err(anyhow::Error::from)?;
 
-    let r = enc.encode(&pixels, width, height).map_err(anyhow::Error::from)?;
+    let r = enc
+        .encode(&pixels, width, height)
+        .map_err(anyhow::Error::from)?;
     Ok(r)
 }

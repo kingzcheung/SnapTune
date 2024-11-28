@@ -138,7 +138,7 @@ async function handleConvert() {
 <template>
   <main class="container h-full flex flex-col justify-start items-center">
     <div class="flex items-center flex-row justify-between mb-4 px-6 w-full">
-      <h1 class="text-2xl text-left font-bold flex-1 w-full">Image Converter</h1>
+      <h1 class="text-4xl text-left font-bold flex-1 w-full">Image Converter</h1>
       <div class="flex items-center justify-center mr-4" v-if="files.length>0">
         <span class="capitalize mr-2 text-sm">All Convert to</span>
         <Select v-model="all_to_format">
@@ -163,9 +163,9 @@ async function handleConvert() {
       <Button v-if="files.length>0" variant="outline" class="w-24" @click="selectFileHandle">Select files</Button>
     </div>
     <Toaster position="bottom-center" />
-    <div class="bg-white rounded-3xl p-6 w-full flex-1">
+    <div class="bg-white rounded-2xl p-6 w-full flex-1">
       <div
-          class="flex flex-col gap-2  items-center justify-center py-12 h-full rounded-3xl border-dashed border-2 cursor-pointer"
+          class="flex flex-col gap-2  items-center justify-center py-12 h-full rounded-2xl border-dashed border-2 cursor-pointer"
           v-if="files.length === 0" @click="selectFileHandle">
         <div>
           <ImageUp class="w-12 h-12 text-zinc-600"/>

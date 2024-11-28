@@ -114,11 +114,11 @@ onUnmounted(()=>{
 <template>
   <main class="container h-full flex flex-col justify-start items-center">
     <div class="flex items-center flex-row justify-between mb-4 px-6 w-full">
-      <h1 class="text-2xl text-left font-bold flex-1 w-full">Image Compression</h1>
+      <h1 class="text-4xl text-left font-bold flex-1 w-full">Image Compression</h1>
       <Button v-if="files.length>0" variant="outline" class="w-24" @click="selectFileHandle">Select files</Button>
     </div>
-    <div class="bg-white rounded-3xl p-6 w-full flex-1">
-      <div class="flex flex-col gap-2 cursor-pointer items-center justify-center py-12 h-full rounded-3xl border-dashed border-2"
+    <div class="bg-white rounded-2xl p-6 w-full flex-1">
+      <div class="flex flex-col gap-2 cursor-pointer items-center justify-center py-12 h-full rounded-2xl border-dashed border-2"
            v-if="files.length === 0" @click="selectFileHandle">
         <div class="text-zinc-600"><ImageUp class="w-12 h-12 text-zinc-600"/></div>
         <div class="text-xl text-zinc-700">Click, or Drag and drop image here.</div>

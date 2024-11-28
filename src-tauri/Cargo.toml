@@ -32,6 +32,8 @@ anyhow = "1.0.53"
 infer = "0.16.0"
 thiserror = "2"
 tokio = { version = "1.41.1",features = ["full"] }
+tauri-plugin-persisted-scope = "2.0.0"
+tauri-plugin-store = "2"
 
 [target."cfg(target_os = \"macos\")".dependencies]
 cocoa = "0.26.0"

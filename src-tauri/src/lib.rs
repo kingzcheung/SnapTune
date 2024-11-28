@@ -3,15 +3,16 @@ use tauri::{ WebviewUrl, WebviewWindowBuilder};
 #[cfg(target_os = "macos")]
 use tauri::TitleBarStyle;
 
-pub mod quant;
-pub mod convert;
 mod commands;
+pub mod convert;
 pub mod error;
-
+pub mod quant;
+pub mod settings;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
         .setup(|app| {
             let win_builder = WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
                 .title("Image2X")
@@ -43,10 +44,15 @@ pub fn run() {
 
             Ok(())
         })
+        .plugin(tauri_plugin_persisted_scope::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![commands::compress_image, commands::open_folder,commands::convert])
+        .invoke_handler(tauri::generate_handler![
+            commands::compress_image,
+            commands::open_folder,
+            commands::convert
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

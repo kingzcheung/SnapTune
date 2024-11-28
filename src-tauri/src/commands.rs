@@ -1,9 +1,10 @@
 use crate::{
     convert::{ConvertFormat, Converter},
     error::AppError,
-    quant::{jpeg::Jpeg, png::Png, Compression},
+    quant::{jpeg::Jpeg, png::Png, Compression}, settings::Settings,
 };
 use serde::{Deserialize, Serialize};
+use tauri_plugin_store::StoreExt;
 use std::path::{Path, PathBuf};
 use tauri_plugin_shell::ShellExt;
 
@@ -18,7 +19,9 @@ pub struct CompressedImage {
 pub(crate) async fn compress_image(
     file_path: String,
     save_path: Option<String>,
+    app_handle: tauri::AppHandle
 ) -> Result<CompressedImage, AppError> {
+    let store = app_handle.store("settings.json").unwrap();
     let Some(kind) = infer::get_from_path(file_path.as_str()).map_err(AppError::FileNotFound)?
     else {
         return Err(AppError::InvalidImage);
@@ -27,6 +30,9 @@ pub(crate) async fn compress_image(
     let upload_data = tokio::fs::read(file_path.as_str())
         .await
         .map_err(AppError::FileNotFound)?;
+    let settings = store.get("settings").unwrap_or_default();
+    let settings:Settings = serde_json::from_value(settings).unwrap();
+    dbg!(&settings);
     let quality = 80;
     let data = match kind.extension() {
         "jpg" => Jpeg::compress(&upload_data, quality).map_err(AppError::Any),
@@ -60,14 +66,15 @@ pub async fn open_folder(path: String, app_handle: tauri::AppHandle) -> Result<(
     let shell = app_handle.shell();
     // shell.command("open").args([path]).output().await.unwrap();
     // tauri_plugin_shell::open::open(scope, path, with)
+    
     let _ = shell.open(path, None);
     Ok(())
 }
 
 #[derive(Debug, Serialize)]
-pub struct ConverterResponse{
+pub struct ConverterResponse {
     status: String,
-    save_path:PathBuf,
+    save_path: PathBuf,
 }
 
 #[tauri::command]
@@ -78,7 +85,7 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
     };
     let p = Path::new(&file_path);
     let file_stem = p.file_stem().unwrap().to_str().unwrap();
-    let filename = format!("{}.{}",file_stem,&to_format);
+    let filename = format!("{}.{}", file_stem, &to_format);
     let data = match kind.extension() {
         "jpg" | "png" | "webp" => {
             let c: ConvertFormat = kind.extension().try_into()?;
@@ -102,7 +109,7 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
         .await
         .map_err(AppError::FileNotFound)?;
 
-    Ok(ConverterResponse{
+    Ok(ConverterResponse {
         status: "done".to_string(),
         save_path: saved_path,
     })

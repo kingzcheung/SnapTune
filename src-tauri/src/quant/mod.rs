@@ -1,5 +1,5 @@
-pub mod png;
 pub mod jpeg;
+pub mod png;
 
 // 量化压缩
 

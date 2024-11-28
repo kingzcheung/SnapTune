@@ -25,7 +25,7 @@ impl TryFrom<String> for ConvertFormat {
             "jpeg" | "jpg" => Ok(ConvertFormat::Jpeg),
             "png" => Ok(ConvertFormat::Png),
             "webp" => Ok(ConvertFormat::Webp),
-            _=> Err(crate::error::AppError::InvalidFormat),
+            _ => Err(crate::error::AppError::InvalidFormat),
         }
     }
 }
@@ -37,7 +37,7 @@ impl TryFrom<&str> for ConvertFormat {
             "jpeg" | "jpg" => Ok(ConvertFormat::Jpeg),
             "png" => Ok(ConvertFormat::Png),
             "webp" => Ok(ConvertFormat::Webp),
-            _=> Err(crate::error::AppError::InvalidFormat),
+            _ => Err(crate::error::AppError::InvalidFormat),
         }
     }
 }
@@ -62,20 +62,12 @@ impl From<ConvertFormat> for ImageFormat {
 }
 
 pub trait Converter {
-    fn convert(
-        &self,
-        data: &[u8],
-        to_format: ConvertFormat,
-    ) -> Result<Vec<u8>, anyhow::Error>;
+    fn convert(&self, data: &[u8], to_format: ConvertFormat) -> Result<Vec<u8>, anyhow::Error>;
 }
 
 impl Converter for ConvertFormat {
-    fn convert(
-        &self,
-        data: &[u8],
-        to_format: ConvertFormat,
-    ) -> Result<Vec<u8>, anyhow::Error> {
-        let from_format:ImageFormat = self.into();
+    fn convert(&self, data: &[u8], to_format: ConvertFormat) -> Result<Vec<u8>, anyhow::Error> {
+        let from_format: ImageFormat = self.into();
         let img = ImageReader::with_format(Cursor::new(data), from_format).decode()?;
         // let img = ImageReader::new(Cursor::new(data)).decode()?;
         let img = img.to_rgb8();
