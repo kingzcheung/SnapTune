@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug,Default, Clone, Serialize, Deserialize)]
 pub struct Settings {
     #[serde(default = "default_quality")]
     pub quality: u8,

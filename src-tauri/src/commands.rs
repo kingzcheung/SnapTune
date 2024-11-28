@@ -31,8 +31,9 @@ pub(crate) async fn compress_image(
         .await
         .map_err(AppError::FileNotFound)?;
     let settings = store.get("settings").unwrap_or_default();
-    let settings:Settings = serde_json::from_value(settings).unwrap();
     dbg!(&settings);
+    let settings:Settings = serde_json::from_value(settings).unwrap_or_default();
+   
     let quality = 80;
     let data = match kind.extension() {
         "jpg" => Jpeg::compress(&upload_data, quality).map_err(AppError::Any),

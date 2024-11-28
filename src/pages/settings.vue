@@ -30,9 +30,9 @@ onMounted(async () => {
 })
 
 
-async function handleVolumeChange(val: number[]) {
+async function handleVolumeChange() {
   console.log("set quality")
-  await store.set('quality', {value: val[0]})
+  await store.set('settings', form.value)
   await store.save()
 }
 

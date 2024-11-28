@@ -67,7 +67,6 @@ async function selectFileHandle() {
 }
 
 watchEffect(async () => {
-  console.log("加班了")
   for (let file of files.value) {
     let compress_file: CompressedFile = await invoke('compress_image', {filePath: file.raw_path})
     file.compressedSize = compress_file.size;
