@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PackageMinus, Repeat, Settings} from 'lucide-vue-next'
+import {PackageMinus, Repeat, Settings,Crop} from 'lucide-vue-next'
 import {ref} from "vue";
 import {useRoute} from "vue-router";
 
@@ -23,6 +23,10 @@ const navs = ref<NavItem[]>([
     title: 'Converter',
     icon: Repeat,
     href: '/converter'
+  },{
+    title: 'Crop',
+    icon: Crop,
+    href: '/crop'
   },
   {
     title: 'Settings',
