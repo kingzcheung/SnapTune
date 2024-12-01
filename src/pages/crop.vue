@@ -9,7 +9,7 @@ import '@leafer-in/editor'
 import {Button} from '@/components/ui/button'
 import {App, IUI,  LeaferEvent, PropertyEvent, Rect} from 'leafer-ui'
 import { save } from '@tauri-apps/plugin-dialog';
-import {writeFile} from '@tauri-apps/plugin-fs';
+import {invoke} from "@tauri-apps/api/core";
 
 interface ImageFile {
   raw_path: string;
@@ -21,6 +21,8 @@ interface ImageFile {
   crop_width: number;
   crop_height: number;
   scale: number;
+  crop_x:number;
+  crop_y:number;
 }
 
 const file = ref<ImageFile | null>(null);
@@ -61,8 +63,10 @@ async function selectFileHandle() {
         raw_height: img.height,
         raw_width: img.width,
         scale: 400 / img.height,
-        crop_width: img.width,
-        crop_height: img.height,
+        crop_width: 192,
+        crop_height: 192,
+        crop_x: 0,
+        crop_y: 0,
       }
       if (proxyRect) {
         proxyRect.width = img.width * 400 / img.height
@@ -73,6 +77,18 @@ async function selectFileHandle() {
       if (r1.proxyData) {
         if (r1.proxyData.widthRange) {
           r1.proxyData.widthRange.max = img.width * 400 / img.height
+        }
+        if (r1.x && proxyRect) {
+          r1.proxyData.x =(proxyRect.width || 0) / 2 - 96
+        }
+        if (r1.y && proxyRect) {
+          r1.proxyData.y =(proxyRect.height || 0) / 2 - 96
+        }
+        if (r1.width) {
+          r1.proxyData.width = 192 * file.value?.scale||1
+        }
+        if (r1.height) {
+          r1.proxyData.height = 192 * file.value?.scale||1
         }
       }
       console.log(app)
@@ -106,8 +122,10 @@ onMounted(() => {
   app.tree.add(rect)
   r1 = Rect.one({
     editable: true,
-    fill: 'rgba(138,250,171,0.27)',
+    fill: 'rgba(138,250,171,0.47)',
     dragBounds: 'parent',
+    width:192,
+    height:192,
     cornerRadius: [0, 0, 0, 0],
     widthRange: {
       min: 100,
@@ -136,23 +154,22 @@ onMounted(() => {
           file.value.crop_height = Math.floor((e.newValue as number) / file.value.scale)
         }
       }
+      if (e.attrName==='x') {
+        if (file.value) {
+          file.value.crop_x = Math.floor((e.newValue as number) / file.value.scale)
+        }
+      }
+      if (e.attrName==='y') {
+        if (file.value) {
+          file.value.crop_y = Math.floor((e.newValue as number) / file.value.scale)
+        }
+      }
     })
   })
 })
 
 async function cropHandle(){
-  const result = await rect.export('jpg',{
-    blob:true,
-    quality: 1,
-    scale: 1,
-    screenshot:{
-      x: r1.x||0,
-      y: r1.y||0,
-      width: (file.value?.crop_width||0) ,
-      height: (file.value?.crop_height||0) ,
 
-    }
-  })
   const path = await save({
     filters: [
       {
@@ -162,9 +179,17 @@ async function cropHandle(){
     ],
   });
   if (path) {
-    const blob =result.data as Blob
-    const data = await blob.bytes()
-    await writeFile(path,data)
+    if (r1.x && r1.y && file.value) {
+      await invoke("crop_image",{
+        imagePath: file.value?.raw_path,
+        savePath: path,
+        cropWidth: file.value?.crop_width,
+        cropHeight: file.value?.crop_height,
+        x: file.value.crop_x,
+        y: file.value.crop_y,
+      })
+    }
+
   }
   console.log(path);
 }
@@ -189,11 +214,10 @@ async function cropHandle(){
           </TabsList>
           <TabsContent value="crop">
             <div class="flex items-center flex-col gap-4">
-              <div class="flex items-center">
-                <span>Crop Size:</span>
+              <div class="flex items-center" v-if="file">
+                <span>Crop size:</span>
                 <span>{{file?.crop_width}} X {{file?.crop_height}}</span>
               </div>
-              {{file}}
             </div>
           </TabsContent>
           <TabsContent value="resize">

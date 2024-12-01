@@ -115,3 +115,9 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
         save_path: saved_path,
     })
 }
+
+
+#[tauri::command]
+pub async fn crop_image(image_path: String,crop_width: u32, crop_height: u32,x: u32,y: u32,save_path: String)-> Result<(), AppError> {
+    crate::crop::crop_image(image_path,crop_width, crop_height,x,y,save_path).await
+}

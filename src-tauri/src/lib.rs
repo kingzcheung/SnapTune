@@ -8,6 +8,7 @@ pub mod convert;
 pub mod error;
 pub mod quant;
 pub mod settings;
+pub mod crop;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -51,7 +52,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::compress_image,
             commands::open_folder,
-            commands::convert
+            commands::convert,
+            commands::crop_image,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
