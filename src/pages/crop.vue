@@ -4,18 +4,12 @@ import {onMounted, ref} from "vue";
 import '@/lib/proxyData.ts'
 import {ImageUp} from "lucide-vue-next";
 import {open} from "@tauri-apps/plugin-dialog";
-import {Label} from '@/components/ui/label'
 import {readFile} from '@tauri-apps/plugin-fs';
 import '@leafer-in/editor'
-import {
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
-} from '@/components/ui/number-field'
-import {App, Rect} from 'leafer-ui'
-
+import {Button} from '@/components/ui/button'
+import {App, IUI,  LeaferEvent, PropertyEvent, Rect} from 'leafer-ui'
+import { save } from '@tauri-apps/plugin-dialog';
+import {writeFile} from '@tauri-apps/plugin-fs';
 
 interface ImageFile {
   raw_path: string;
@@ -23,7 +17,10 @@ interface ImageFile {
   file_name: string;
   show_url: string;
   raw_width: number;
-  raw_height:number;
+  raw_height: number;
+  crop_width: number;
+  crop_height: number;
+  scale: number;
 }
 
 const file = ref<ImageFile | null>(null);
@@ -34,6 +31,8 @@ const rect = new Rect({
   y: 0,
   locked: true,
 })
+let app: App;
+let r1: IUI;
 
 async function selectFileHandle() {
   const selected = await open({
@@ -49,7 +48,7 @@ async function selectFileHandle() {
   if (selected != null) {
     let imageData = await readFile(selected)
     // 获取图片的高和宽
-
+    const proxyRect = rect.proxyData
     const image_url = URL.createObjectURL(new Blob([imageData]));
     const img = new Image();
     img.src = image_url
@@ -61,12 +60,25 @@ async function selectFileHandle() {
         show_url: image_url,
         raw_height: img.height,
         raw_width: img.width,
+        scale: 400 / img.height,
+        crop_width: img.width,
+        crop_height: img.height,
       }
+      if (proxyRect) {
+        proxyRect.width = img.width * 400 / img.height
+      }
+      if (app.proxyData) {
+        app.proxyData.width = img.width * 400 / img.height
+      }
+      if (r1.proxyData) {
+        if (r1.proxyData.widthRange) {
+          r1.proxyData.widthRange.max = img.width * 400 / img.height
+        }
+      }
+      console.log(app)
     }
 
 
-
-    const proxyRect = rect.proxyData
     if (proxyRect) {
       proxyRect.fill = {
         type: 'image',
@@ -78,7 +90,7 @@ async function selectFileHandle() {
 
 
 onMounted(() => {
-  const app = new App({
+  app = new App({
     view: 'leafer',
     editor: {
       rotateable: false
@@ -90,21 +102,72 @@ onMounted(() => {
     },
   })
 
+
   app.tree.add(rect)
-  const r1 = Rect.one({
+  r1 = Rect.one({
     editable: true,
-    fill: '#FFE04B44',
+    fill: 'rgba(138,250,171,0.27)',
     dragBounds: 'parent',
     cornerRadius: [0, 0, 0, 0],
+    widthRange: {
+      min: 100,
+      max: 400
+    },
+    heightRange: {
+      min: 100,
+      max: 400
+    }
   }, 300, 100)
+
   app.tree.add(r1)
 
-  r1.on("scale",()=>{
-    console.log(r1.scale)
-  })
 
+  app.on(LeaferEvent.READY, () => {
+    console.log("READY")
+    r1.on(PropertyEvent.CHANGE, function (e: PropertyEvent) {
+      // console.log('leafer', e.target, e.attrName, e.newValue, e.oldValue)
+      if (e.attrName ==='width') {
+        if (file.value) {
+          file.value.crop_width = Math.floor((e.newValue as number) / file.value.scale)
+        }
+      }
+      if (e.attrName==='height') {
+        if (file.value) {
+          file.value.crop_height = Math.floor((e.newValue as number) / file.value.scale)
+        }
+      }
+    })
+  })
 })
 
+async function cropHandle(){
+  const result = await rect.export('jpg',{
+    blob:true,
+    quality: 1,
+    scale: 1,
+    screenshot:{
+      x: r1.x||0,
+      y: r1.y||0,
+      width: (file.value?.crop_width||0) ,
+      height: (file.value?.crop_height||0) ,
+
+    }
+  })
+  const path = await save({
+    filters: [
+      {
+        name: 'crop',
+        extensions: ['png', 'jpeg'],
+      },
+    ],
+  });
+  if (path) {
+    const blob =result.data as Blob
+    const data = await blob.bytes()
+    await writeFile(path,data)
+  }
+  console.log(path);
+}
 
 </script>
 
@@ -114,39 +177,31 @@ onMounted(() => {
       <h1 class="text-4xl text-left font-bold flex-1 w-full">Crop and Resize</h1>
     </div>
     <div class="bg-white py-4 h-full w-full px-4 rounded-2xl flex flex-col">
-      <Tabs default-value="crop" class="w-[400px] mb-4">
-        <TabsList>
-          <TabsTrigger value="crop">
-            Crop
-          </TabsTrigger>
-          <TabsTrigger value="resize">
-            Resize
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="crop">
-          <div class="flex items-center gap-4">
-            <NumberField :min="20" :default-value="100" class="flex items-center">
-              <Label>Width</Label>
-              <NumberFieldContent>
-                <NumberFieldDecrement/>
-                <NumberFieldInput/>
-                <NumberFieldIncrement/>
-              </NumberFieldContent>
-            </NumberField>
-            <NumberField :min="20" :default-value="100" class="flex items-center">
-              <Label>Height</Label>
-              <NumberFieldContent>
-                <NumberFieldDecrement/>
-                <NumberFieldInput/>
-                <NumberFieldIncrement/>
-              </NumberFieldContent>
-            </NumberField>
-          </div>
-        </TabsContent>
-        <TabsContent value="resize">
-          here is resize
-        </TabsContent>
-      </Tabs>
+      <div class="flex items-center justify-between">
+        <Tabs default-value="crop" class="w-[400px] mb-4 flex items-center gap-4 flex-1">
+          <TabsList>
+            <TabsTrigger value="crop">
+              Crop
+            </TabsTrigger>
+            <TabsTrigger value="resize">
+              Resize
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="crop">
+            <div class="flex items-center flex-col gap-4">
+              <div class="flex items-center">
+                <span>Crop Size:</span>
+                <span>{{file?.crop_width}} X {{file?.crop_height}}</span>
+              </div>
+              {{file}}
+            </div>
+          </TabsContent>
+          <TabsContent value="resize">
+            here is resize
+          </TabsContent>
+        </Tabs>
+        <Button class="rounded-full" @click="cropHandle">Crop</Button>
+      </div>
       <div
           v-show="!file?.show_url"
           class="flex flex-col gap-2 w-full items-center justify-center py-12 flex-1  rounded-2xl border-dashed border-2 cursor-pointer"
@@ -157,8 +212,8 @@ onMounted(() => {
         <div class="text-xl text-zinc-700">Click, or Drag and drop image here.</div>
         <div class="text-base text-gray-400 mb-8">Supports the following formats: PNG, JPEG, WEBP, GIF.</div>
       </div>
-      <div class="flex items-center justify-center bg-center  relative w-[400px] h-[400px]" v-show="file?.show_url">
-        <div id="leafer" class="w-full h-full"></div>
+      <div class="flex items-center justify-center bg-center  relative " v-show="file?.show_url">
+        <div id="leafer" class=" h-[400px]"></div>
       </div>
     </div>
   </main>
