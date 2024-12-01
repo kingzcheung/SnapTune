@@ -10,6 +10,10 @@ pub enum AppError {
     FileNotFound(#[from] std::io::Error),
     #[error("invalid format")]
     InvalidFormat,
+    #[error("image decode error")]
+    ImageDecodeError,
+    #[error("image save error:{0}")]
+    ImageSaveError(#[from] image::ImageError),
 }
 
 impl serde::Serialize for AppError {
