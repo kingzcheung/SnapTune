@@ -1,12 +1,13 @@
 use crate::{
     convert::{ConvertFormat, Converter},
     error::AppError,
-    quant::{jpeg::Jpeg, png::Png, Compression}, settings::Settings,
+    quant::{jpeg::Jpeg, png::Png, Compression},
+    settings::Settings,
 };
 use serde::{Deserialize, Serialize};
-use tauri_plugin_store::StoreExt;
 use std::path::{Path, PathBuf};
 use tauri_plugin_shell::ShellExt;
+use tauri_plugin_store::StoreExt;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CompressedImage {
@@ -19,7 +20,7 @@ pub struct CompressedImage {
 pub(crate) async fn compress_image(
     file_path: String,
     save_path: Option<String>,
-    app_handle: tauri::AppHandle
+    app_handle: tauri::AppHandle,
 ) -> Result<CompressedImage, AppError> {
     let store = app_handle.store("settings.json").unwrap();
     let Some(kind) = infer::get_from_path(file_path.as_str()).map_err(AppError::FileNotFound)?
@@ -32,8 +33,8 @@ pub(crate) async fn compress_image(
         .map_err(AppError::FileNotFound)?;
     let settings = store.get("settings").unwrap_or_default();
     dbg!(&settings);
-    let settings:Settings = serde_json::from_value(settings).unwrap_or_default();
-   
+    let settings: Settings = serde_json::from_value(settings).unwrap_or_default();
+
     let quality = 80;
     let data = match kind.extension() {
         "jpg" => Jpeg::compress(&upload_data, quality).map_err(AppError::Any),
@@ -67,7 +68,7 @@ pub async fn open_folder(path: String, app_handle: tauri::AppHandle) -> Result<(
     let shell = app_handle.shell();
     // shell.command("open").args([path]).output().await.unwrap();
     // tauri_plugin_shell::open::open(scope, path, with)
-    
+
     let _ = shell.open(path, None);
     Ok(())
 }
@@ -116,8 +117,24 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
     })
 }
 
+#[tauri::command]
+pub async fn crop_image(
+    image_path: String,
+    crop_width: u32,
+    crop_height: u32,
+    x: u32,
+    y: u32,
+    save_path: String,
+) -> Result<(), AppError> {
+    crate::crop::crop_image(image_path, crop_width, crop_height, x, y, save_path).await
+}
 
 #[tauri::command]
-pub async fn crop_image(image_path: String,crop_width: u32, crop_height: u32,x: u32,y: u32,save_path: String)-> Result<(), AppError> {
-    crate::crop::crop_image(image_path,crop_width, crop_height,x,y,save_path).await
+pub async fn resize_image(
+    image_path: String,
+    width: u32,
+    height: u32,
+    save_path: String,
+) -> Result<(), AppError> {
+    crate::crop::resize_image(image_path, width, height, save_path).await
 }
