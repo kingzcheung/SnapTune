@@ -2,7 +2,7 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {onMounted, ref} from "vue";
 import '@/lib/proxyData.ts'
-import {ImageUp} from "lucide-vue-next";
+import {ImageUp,Link2} from "lucide-vue-next";
 import {open} from "@tauri-apps/plugin-dialog";
 import {readFile} from '@tauri-apps/plugin-fs';
 import '@leafer-in/editor'
@@ -10,6 +10,11 @@ import {Button} from '@/components/ui/button'
 import {App, IUI,  LeaferEvent, PropertyEvent, Rect} from 'leafer-ui'
 import { save } from '@tauri-apps/plugin-dialog';
 import {invoke} from "@tauri-apps/api/core";
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification,
+} from '@tauri-apps/plugin-notification';
 
 interface ImageFile {
   raw_path: string;
@@ -25,7 +30,22 @@ interface ImageFile {
   crop_y:number;
 }
 
+interface ResizeImage {
+  width: number;
+  height: number;
+  view_width: number;
+  view_height: number;
+}
+// 是否关联
+const isAssociate = ref(false)
+const permissionGranted = ref(false)
 const file = ref<ImageFile | null>(null);
+const resize = ref<ResizeImage>({
+  width:0,
+  height:0,
+  view_width:0,
+  view_height:400,
+})
 const rect = new Rect({
   height: 400,
   width: 400,
@@ -33,6 +53,7 @@ const rect = new Rect({
   y: 0,
   locked: true,
 })
+const activeTab = ref('crop')
 let app: App;
 let r1: IUI;
 
@@ -68,6 +89,11 @@ async function selectFileHandle() {
         crop_x: 0,
         crop_y: 0,
       }
+
+      resize.value.width = img.width
+      resize.value.height = img.height
+      resize.value.view_width = img.width * 400 / img.height
+
       if (proxyRect) {
         proxyRect.width = img.width * 400 / img.height
       }
@@ -105,7 +131,14 @@ async function selectFileHandle() {
 }
 
 
-onMounted(() => {
+onMounted(async () => {
+  let isp = await isPermissionGranted();
+  if (!isp) {
+    const permission = await requestPermission();
+    permissionGranted.value = permission === 'granted';
+
+  }
+
   app = new App({
     view: 'leafer',
     editor: {
@@ -191,7 +224,43 @@ async function cropHandle(){
     }
 
   }
-  console.log(path);
+
+}
+function changeWHandle(){
+  resize.value.view_width = Math.floor(resize.value.width * 400 / resize.value.height)
+  if (isAssociate) {
+    resize.value.height = Math.floor(resize.value.width * resize.value.view_height / resize.value.height)
+    resize.value.view_height = Math.floor(resize.value.height * resize.value.view_width / resize.value.width)
+
+  }
+}
+function changeHHandle(){
+  resize.value.view_height = Math.floor(resize.value.height * 400 / resize.value.width)
+  if (isAssociate) {
+    resize.value.width = Math.floor(resize.value.height * resize.value.view_width / resize.value.width)
+    resize.value.view_width = Math.floor(resize.value.width * resize.value.view_height / resize.value.height)
+  }
+}
+async function exportHandle(){
+  const path = await save({
+    filters: [
+      {
+        name: 'crop',
+        extensions: ['png', 'jpeg'],
+      },
+    ],
+  });
+  if (path) {
+    await invoke("resize_image",{
+      imagePath: file.value?.raw_path,
+      savePath: path,
+      width: resize.value.width,
+      height: resize.value.height,
+    })
+    if (permissionGranted.value) {
+      sendNotification({ title: 'Resize Result', body: 'Success!' });
+    }
+  }
 }
 
 </script>
@@ -203,7 +272,7 @@ async function cropHandle(){
     </div>
     <div class="bg-white py-4 h-full w-full px-4 rounded-2xl flex flex-col">
       <div class="flex items-center justify-between">
-        <Tabs default-value="crop" class="w-[400px] mb-4 flex items-center gap-4 flex-1">
+        <Tabs default-value="crop" v-model="activeTab" class="mb-4 flex items-center w-full gap-4 flex-1">
           <TabsList>
             <TabsTrigger value="crop">
               Crop
@@ -212,23 +281,39 @@ async function cropHandle(){
               Resize
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="crop">
-            <div class="flex items-center flex-col gap-4">
-              <div class="flex items-center" v-if="file">
+          <TabsContent value="crop" class="w-full mt-0">
+            <div class="flex items-center w-full gap-4" v-if="file">
+              <div class="flex items-center  flex-1" >
                 <span>Crop size:</span>
                 <span>{{file?.crop_width}} X {{file?.crop_height}}</span>
               </div>
+              <Button class="rounded-full" @click="cropHandle">Crop</Button>
             </div>
           </TabsContent>
-          <TabsContent value="resize">
-            here is resize
+          <TabsContent value="resize"  class="w-full mt-0">
+            <div class="flex items-center gap-6">
+              <div class="relative w-24">
+                <label for="w" class="absolute inset-y-0 px-1 text-xs align-middle leading-loose	 bg-zinc-200 rounded-sm inline-block left-0 uppercase">w</label>
+                <input id="w" @change="changeWHandle" v-model="resize.width" class="py-0.5 pl-6 w-full outline outline-offset-2 outline-2 rounded-md outline-zinc-300 focus:outline-zinc-500 " type="number">
+              </div>
+
+              <div class="relative w-24">
+                <label for="h" class="absolute inset-y-0 px-1 text-xs align-middle leading-loose	 bg-zinc-200 rounded-sm inline-block left-0 uppercase">h</label>
+                <input id="h" @change="changeHHandle" v-model="resize.height" class="py-0.5 pl-6 w-full outline outline-offset-2 outline-2 rounded-md outline-zinc-300 focus:outline-zinc-500 " type="number">
+              </div>
+              <button type="button" @click="isAssociate = !isAssociate" class="bg-zinc-200 p-2 rounded-md" :class="{'bg-zinc-700 text-white':isAssociate}">
+                <Link2 class="w-5 h-5" />
+              </button>
+              <span class="flex-1"></span>
+              <Button class="" :disabled="!file?.show_url" @click="exportHandle">Export</Button>
+            </div>
           </TabsContent>
         </Tabs>
-        <Button class="rounded-full" @click="cropHandle">Crop</Button>
+
       </div>
       <div
           v-show="!file?.show_url"
-          class="flex flex-col gap-2 w-full items-center justify-center py-12 flex-1  rounded-2xl border-dashed border-2 cursor-pointer"
+          class="flex flex-col  gap-2 w-full items-center justify-center py-12 flex-1  rounded-2xl border-dashed border-2 cursor-pointer"
           @click="selectFileHandle">
         <div>
           <ImageUp class="w-12 h-12 text-zinc-600"/>
@@ -236,8 +321,19 @@ async function cropHandle(){
         <div class="text-xl text-zinc-700">Click, or Drag and drop image here.</div>
         <div class="text-base text-gray-400 mb-8">Supports the following formats: PNG, JPEG, WEBP, GIF.</div>
       </div>
-      <div class="flex items-center justify-center bg-center  relative " v-show="file?.show_url">
+      <div class="flex items-center justify-center bg-center overflow-hidden relative " v-show="file?.show_url && activeTab=='crop'">
         <div id="leafer" class=" h-[400px]"></div>
+      </div>
+      <div class="flex items-center justify-center bg-center overflow-hidden relative "  v-show="file?.show_url && activeTab=='resize'">
+        <div class="h-[400px] w-full bg-no-repeat bg-center" :style="{
+          backgroundImage:`url(${file?.show_url})`,
+          backgroundSize:resize.view_width+'px '+resize.view_height+'px'
+        }">
+<!--          <img :src="file?.show_url" alt="" class="object-cover" :style="{-->
+<!--            width:resize.view_width+'px',-->
+<!--            height:resize.view_height+'px'-->
+<!--          }" />-->
+        </div>
       </div>
     </div>
   </main>

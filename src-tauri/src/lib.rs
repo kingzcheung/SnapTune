@@ -1,18 +1,19 @@
-use tauri::{ WebviewUrl, WebviewWindowBuilder};
+use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 #[cfg(target_os = "macos")]
 use tauri::TitleBarStyle;
 
 mod commands;
 pub mod convert;
+pub mod crop;
 pub mod error;
 pub mod quant;
 pub mod settings;
-pub mod crop;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .setup(|app| {
             let win_builder = WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
@@ -54,6 +55,7 @@ pub fn run() {
             commands::open_folder,
             commands::convert,
             commands::crop_image,
+            commands::resize_image,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -33,7 +33,18 @@
     "fs:allow-write-file",
     {
       "identifier": "fs:scope",
-      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**" },{ "path": "$HOME/**" }]
-    }
+      "allow": [
+        {
+          "path": "$APPDATA"
+        },
+        {
+          "path": "$APPDATA/**"
+        },
+        {
+          "path": "$HOME/**"
+        }
+      ]
+    },
+    "notification:default"
   ]
 }
