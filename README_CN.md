@@ -41,8 +41,7 @@ pnpm tauri build
 > TODO
 
 ## 预览
-![预览](data/screenshot-20241126-174559.png)
-
+![Preview](data/Jietu20241203-214654.jpg)
 ## 其他
 
 如果你想使用在线版本的有损压缩功能，请访问 [https://tinypng.ximei.me](https://tinypng.ximei.me)。

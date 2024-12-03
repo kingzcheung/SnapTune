@@ -42,7 +42,7 @@
 
 ## Preview
 
-![Preview](data/screenshot-20241126-174559.png)
+![Preview](data/Jietu20241203-214654.jpg)
 
 
 ## Other
