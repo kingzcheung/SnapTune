@@ -1,6 +1,6 @@
 [package]
 name = "SnapTune"
-version = "0.1.0"
+version = "0.2.0"
 description = "SnapTune is a image compression tool for macOS/Windows/Linux"
 authors = ["kingzcheung@gmail.com"]
 edition = "2021"
