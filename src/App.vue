@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Navbar from "@/components/Navbar.vue";
-import { Store } from '@tauri-apps/plugin-store'
+import {Store} from '@tauri-apps/plugin-store'
 import {onMounted} from "vue";
 import config from '@/config/index.json'
 

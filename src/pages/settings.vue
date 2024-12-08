@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 import {Separator} from '@/components/ui/separator'
 import {Slider} from '@/components/ui/slider'
 import {Store} from '@tauri-apps/plugin-store';
-
+import {app} from '@tauri-apps/api';
 import {ref, onMounted} from "vue";
 
 interface SettingsInterface {
@@ -19,6 +19,7 @@ const form = ref<SettingsInterface>({
   imageConvertSavePath: "",
 })
 
+const version = ref("0.0.0")
 let store: Store;
 
 onMounted(async () => {
@@ -27,6 +28,7 @@ onMounted(async () => {
   if (store_form) {
     form.value = store_form
   }
+  version.value = await app.getVersion()
 })
 
 
@@ -39,7 +41,7 @@ async function handleVolumeChange() {
 </script>
 
 <template>
-  <main class="container h-full flex flex-col justify-start items-center">
+  <main class="container h-full flex flex-col justify-start items-center relative">
     <div class="flex items-center flex-row justify-between mb-4 px-6 w-full">
       <h1 class="text-4xl text-left font-bold flex-1 w-full">Settings</h1>
     </div>
@@ -88,6 +90,9 @@ async function handleVolumeChange() {
             Select Folder
           </Button>
         </div>
+      </div>
+      <div class="text-zinc-700 text-xs mb-4 absolute bottom-2 left-0 right-0 flex justify-center">
+        <span class="text-zinc-400/80">Version:{{version}}</span>
       </div>
     </div>
   </main>
