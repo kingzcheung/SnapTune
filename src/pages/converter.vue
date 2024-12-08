@@ -160,7 +160,7 @@ async function handleConvert() {
           </SelectContent>
         </Select>
       </div>
-      <Button v-if="files.length>0" variant="outline" class="w-24" @click="selectFileHandle">Select files</Button>
+      <Button v-if="files.length>0" variant="outline" class="w-24 rounded-full" @click="selectFileHandle">Select files</Button>
     </div>
     <Toaster position="bottom-center" />
     <div class="bg-white rounded-2xl p-6 w-full flex-1">

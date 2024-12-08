@@ -114,7 +114,7 @@ onUnmounted(()=>{
   <main class="container h-full flex flex-col justify-start items-center">
     <div class="flex items-center flex-row justify-between mb-4 px-6 w-full">
       <h1 class="text-4xl text-left font-bold flex-1 w-full">Image Compression</h1>
-      <Button v-if="files.length>0" variant="outline" class="w-24" @click="selectFileHandle">Select files</Button>
+      <Button v-if="files.length>0" variant="outline" class="w-24 rounded-full" @click="selectFileHandle">Select files</Button>
     </div>
     <div class="bg-white rounded-2xl p-6 w-full flex-1">
       <div class="flex flex-col gap-2 cursor-pointer items-center justify-center py-12 h-full rounded-2xl border-dashed border-2"

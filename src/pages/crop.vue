@@ -310,11 +310,12 @@ function clearHandle() {
                 <span>Crop size:</span>
                 <span>{{ file?.crop_width }} X {{ file?.crop_height }}</span>
               </div>
+              <Button  class="rounded-full" variant="outline" @click="clearHandle">Clear</Button>
               <Button class="rounded-full" @click="cropHandle">Crop</Button>
             </div>
           </TabsContent>
           <TabsContent value="resize" class="w-full mt-0">
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-6 transition-all ">
               <div class="relative w-24">
                 <label for="w"
                        class="absolute inset-y-0 px-1 text-xs align-middle leading-loose	 bg-zinc-200 rounded-sm inline-block left-0 uppercase">w</label>
@@ -336,8 +337,8 @@ function clearHandle() {
                 <Link2 class="w-5 h-5"/>
               </button>
               <span class="flex-1"></span>
-              <Button variant="outline" @click="clearHandle">Clear</Button>
-              <Button class="" :disabled="!file?.show_url" @click="exportHandle">Export</Button>
+              <Button  class="rounded-full" variant="outline" @click="clearHandle">Clear</Button>
+              <Button class="rounded-full" :disabled="!file?.show_url" @click="exportHandle">Export</Button>
             </div>
           </TabsContent>
         </Tabs>
