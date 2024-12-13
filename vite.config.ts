@@ -4,7 +4,6 @@ import { fileURLToPath, URL } from 'node:url'
 import autoprefixer from 'autoprefixer'
 import tailwind from 'tailwindcss'
 
-// @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
@@ -14,6 +13,7 @@ export default defineConfig(async () => ({
       plugins: [tailwind(), autoprefixer()],
     },
   },
+
   plugins: [vue()],
   resolve: {
     alias: {
@@ -24,9 +24,15 @@ export default defineConfig(async () => ({
   //
   // 1. prevent vite from obscuring rust errors
   clearScreen: false,
+  build:{
+    target: process.env.TAURI_ENV_PLATFORM == 'windows'
+        ? 'chrome105'
+        : 'safari13',
+    sourcemap: !!process.env.TAURI_ENV_DEBUG,
+  },
   // 2. tauri expects a fixed port, fail if that port is not available
   server: {
-    port: 1420,
+    port: 5173,
     strictPort: true,
     host: host || false,
     hmr: host
@@ -41,4 +47,5 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     },
   },
+
 }));
