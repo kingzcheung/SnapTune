@@ -41,7 +41,10 @@ export TURBOJPEG_STATIC=1
 pnpm tauri build
 ```
 ### 从二进制包安装
-> TODO
+
+点击这里 下载：[SnapTune](https://github.com/kingzcheung/SnapTune/releases)
+
+由于我没有 macOS 的签名证书，所以二进制包我这里没有提供。 
 
 ## 预览
 ![Preview](data/Jietu20241203-214654.jpg)
