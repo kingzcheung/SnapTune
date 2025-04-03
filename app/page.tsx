@@ -16,7 +16,7 @@ import { useEffect, useReducer, useState } from "react";
 import { compressedReducer, ImageFile } from "@/app/reducer";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import React from "react";
-import { LoaderPinwheel, SendHorizontal } from "lucide-react";
+import { LoaderPinwheel, SendHorizontal, TicketX } from "lucide-react";
 import { convertBytes } from "./utils";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
@@ -36,6 +36,7 @@ const statusColorMap = {
 export default function Home() {
   const [files, dispatch] = useReducer(compressedReducer, []);
   const [compressLoading, setCompressLoading] = useState(false);
+  const [savePath, setSavePath] = useState("");
 
   async function selectFileHandle() {
     const selected = await open({
@@ -70,7 +71,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-
     getCurrentWebview().onDragDropEvent((event) => {
       if (event.payload.type === "enter") {
         // 清空 files
@@ -105,11 +105,20 @@ export default function Home() {
       }
     });
   }, []);
-  async function compressFileHandle() {
+
+  async function selectSavePathHandle() {
     const path = await open({
       directory: true,
       multiple: false,
     });
+
+    if (path === null) {
+      return;
+    }
+
+    setSavePath(path);
+  }
+  async function compressFileHandle() {
 
     setCompressLoading(true);
 
@@ -120,7 +129,7 @@ export default function Home() {
       try {
         let compress_file: CompressedFile = await invoke("compress_image", {
           filePath: file.raw_path,
-          saveDir: path,
+          saveDir: savePath,
         });
         file.compressedSize = compress_file.size;
         file.savePath = compress_file.saved_path;
@@ -178,25 +187,63 @@ export default function Home() {
   return (
     <div className="h-full relative">
       {files.length > 0 ? (
-        <div>
-          <Button
-            size="lg"
-            className="shadow-2xl absolute right-2 bottom-2"
-            onPress={compressFileHandle}
-            disabled={compressLoading}
-          >
-            {
-              compressLoading ? <LoaderPinwheel className="animate-spin" /> : <SendHorizontal /> 
-            }
-           
-          </Button>
+        <div className="h-full">
+          <div className="flex gap-2 items-center mb-2">
+            {/* <div className="flex-1"></div> */}
+            <Button size="sm" className="flex-1 text-left flex items-center justify-start" onPress={selectSavePathHandle}>
+             <span>{savePath? `Save path: ${savePath}`: "Please select save path"}</span>
+            </Button>
+
+            <Button
+              size="sm"
+              color="primary"
+              className="shadow-2xl "
+              onPress={compressFileHandle}
+              disabled={compressLoading}
+            >
+              {compressLoading ? (
+                <LoaderPinwheel className="w-5 h-5 animate-spin" />
+              ) : (
+                <SendHorizontal className="w-5 h-5" />
+              )}
+              <span>Go!</span>
+            </Button>
+            <Button
+              size="sm"
+              className="shadow-2xl "
+              onPress={() => {
+                dispatch({
+                  type: "clear",
+                  payload: {
+                    file_name: "",
+                    raw_path: "",
+                    size: 0,
+                    compressedSize: 0,
+                    savePath: "",
+                    status: "ready",
+                  },
+                });
+              }}
+            >
+              <TicketX className="w-5 h-5" />
+              <span>Clear</span>
+            </Button>
+          </div>
           <Table aria-label="Files">
             <TableHeader>
               <TableColumn key={"file_name"}>File({files.length})</TableColumn>
-              <TableColumn width={'100'} key={"size"}>Before Size</TableColumn>
-              <TableColumn width={'120'} key={"compressedSize"}>Final Size</TableColumn>
-              <TableColumn width={'120'} key={"status"}>Status</TableColumn>
-              <TableColumn width={'80'} key={"saveup"}>Save Up</TableColumn>
+              <TableColumn width={"100"} key={"size"}>
+                Before Size
+              </TableColumn>
+              <TableColumn width={"120"} key={"compressedSize"}>
+                Final Size
+              </TableColumn>
+              <TableColumn width={"120"} key={"status"}>
+                Status
+              </TableColumn>
+              <TableColumn width={"80"} key={"saveup"}>
+                Save Up
+              </TableColumn>
             </TableHeader>
             <TableBody>
               {files.map((file: ImageFile) => (
