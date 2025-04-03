@@ -45,6 +45,11 @@
         }
       ]
     },
-    "notification:default"
+    "notification:default",
+    "dialog:default",
+    "fs:default",
+    "notification:default",
+    "shell:default",
+    "store:default"
   ]
 }
