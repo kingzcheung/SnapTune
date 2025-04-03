@@ -19,7 +19,7 @@ pub struct CompressedImage {
 #[tauri::command]
 pub(crate) async fn compress_image(
     file_path: String,
-    save_path: Option<String>,
+    save_dir: Option<String>,
     app_handle: tauri::AppHandle,
 ) -> Result<CompressedImage, AppError> {
     let store = app_handle.store("settings.json").unwrap();
@@ -47,11 +47,11 @@ pub(crate) async fn compress_image(
     let p = Path::new(&file_path);
     let file_name = p.file_name().unwrap().to_str().unwrap();
 
-    let saved_path = match save_path {
-        Some(s) => PathBuf::from(s),
+    let saved_path = match save_dir {
+        Some(s) => Path::new(&s).join(file_name),
         None => p.parent().unwrap().join("output").join(file_name),
     };
-
+    
     tokio::fs::create_dir_all(saved_path.parent().unwrap())
         .await
         .map_err(AppError::FileNotFound)?;
