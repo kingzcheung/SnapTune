@@ -35,7 +35,6 @@ tokio = { version = "1.44.1",features = ["full"] }
 tauri-plugin-persisted-scope = "2.2.1"
 tauri-plugin-store = "2"
 tauri-plugin-notification = "2"
-tauri-plugin-core = "2.0.0-beta.0"
 
 [target."cfg(target_os = \"macos\")".dependencies]
 cocoa = "0.26.0"
