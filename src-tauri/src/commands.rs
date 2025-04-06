@@ -138,3 +138,12 @@ pub async fn resize_image(
 ) -> Result<(), AppError> {
     crate::crop::resize_image(image_path, width, height, save_path).await
 }
+
+#[tauri::command]
+pub async fn get_file_type(file_path: String) -> Result<String, AppError> {
+    let Some(kind) = infer::get_from_path(file_path.as_str()).map_err(AppError::FileNotFound)?
+    else {
+        return Err(AppError::InvalidImage);
+    };
+    Ok(kind.extension().to_string())
+}
