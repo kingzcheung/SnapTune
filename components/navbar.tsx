@@ -11,6 +11,7 @@ export const Navbar = () => {
         as={Link}
         color={`default`}
         variant={pathname == '/'?`solid`:`light`}
+        href="/"
         className="flex gap-2 justify-start w-full text-zinc-300"
       >
         <PackageMinus className="w-5 h-5 text-violet-500" />
@@ -19,7 +20,8 @@ export const Navbar = () => {
       <Button
         as={Link}
         color="default"
-        variant="light"
+        variant={pathname == '/converter'?`solid`:`light`}
+        href="/converter"
         className="flex gap-2 justify-start w-full text-zinc-300"
       >
         <ArrowLeftRight className="w-5 h-5 text-purple-500" />
@@ -29,7 +31,8 @@ export const Navbar = () => {
       <Button
         as={Link}
         color="default"
-        variant="light"
+        variant={pathname == '/settings'?`solid`:`light`}
+        href="/settings"
         className="flex gap-2  justify-start w-full text-zinc-300"
       >
         <Settings className="w-5 h-5 text-slate-500" />
