@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export const Navbar = () => {
   const pathname = usePathname();
   return (
-    <div className="p-2 flex flex-col gap-2 max-w-xs">
+    <div className="p-2 flex flex-col gap-2 max-w-xs h-full">
       <Button
         as={Link}
         color={`default`}
@@ -38,6 +38,8 @@ export const Navbar = () => {
         <Settings className="w-5 h-5 text-slate-500" />
         <span>Settings</span>
       </Button>
+      <div className="flex-1"></div>
+      <div className="text-center text-sm text-zinc-500/60">version: v1.0.0</div>
     </div>
   );
 };
