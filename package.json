@@ -58,7 +58,8 @@
   },
   "pnpm": {
     "ignoredBuiltDependencies": [
-      "@heroui/shared-utils"
+      "@heroui/shared-utils",
+      "sharp"
     ]
   }
 }
