@@ -5,6 +5,12 @@ pub enum ConvertFormat {
     Jpeg,
     Png,
     Webp,
+    Avif,
+    Bmp,
+    Gif,
+    Tiff,
+    Hdr,
+    OpenExr,
 }
 
 impl ConvertFormat {
@@ -13,6 +19,12 @@ impl ConvertFormat {
             ConvertFormat::Jpeg => "jpg",
             ConvertFormat::Png => "png",
             ConvertFormat::Webp => "webp",
+            ConvertFormat::Avif => "avif",
+            ConvertFormat::Bmp => "bmp",
+            ConvertFormat::Gif => "gif",
+            ConvertFormat::Tiff => "tiff",
+            ConvertFormat::Hdr => "hdr",
+            ConvertFormat::OpenExr => "exr",
         }
     }
 }
@@ -25,6 +37,12 @@ impl TryFrom<String> for ConvertFormat {
             "jpeg" | "jpg" => Ok(ConvertFormat::Jpeg),
             "png" => Ok(ConvertFormat::Png),
             "webp" => Ok(ConvertFormat::Webp),
+            "avif" => Ok(ConvertFormat::Avif),
+            "bmp" => Ok(ConvertFormat::Bmp),
+            "gif" => Ok(ConvertFormat::Gif),
+            "tiff" => Ok(ConvertFormat::Tiff),
+            "exr" => Ok(ConvertFormat::OpenExr),
+            "hdr" => Ok(ConvertFormat::Hdr),
             _ => Err(crate::error::AppError::InvalidFormat),
         }
     }
@@ -37,6 +55,12 @@ impl TryFrom<&str> for ConvertFormat {
             "jpeg" | "jpg" => Ok(ConvertFormat::Jpeg),
             "png" => Ok(ConvertFormat::Png),
             "webp" => Ok(ConvertFormat::Webp),
+            "avif" => Ok(ConvertFormat::Avif),
+            "bmp" => Ok(ConvertFormat::Bmp),
+            "gif" => Ok(ConvertFormat::Gif),
+            "tiff" => Ok(ConvertFormat::Tiff),
+            "exr" => Ok(ConvertFormat::OpenExr),
+            "hdr" => Ok(ConvertFormat::Hdr),
             _ => Err(crate::error::AppError::InvalidFormat),
         }
     }
@@ -48,6 +72,12 @@ impl From<&ConvertFormat> for ImageFormat {
             ConvertFormat::Jpeg => ImageFormat::Jpeg,
             ConvertFormat::Png => ImageFormat::Png,
             ConvertFormat::Webp => ImageFormat::WebP,
+            ConvertFormat::Avif => ImageFormat::Avif,
+            ConvertFormat::Bmp => ImageFormat::Bmp,
+            ConvertFormat::Gif => ImageFormat::Gif,
+            ConvertFormat::Tiff => ImageFormat::Tiff,
+            ConvertFormat::OpenExr => ImageFormat::OpenExr,
+            ConvertFormat::Hdr => ImageFormat::Hdr,
         }
     }
 }
@@ -57,6 +87,12 @@ impl From<ConvertFormat> for ImageFormat {
             ConvertFormat::Jpeg => ImageFormat::Jpeg,
             ConvertFormat::Png => ImageFormat::Png,
             ConvertFormat::Webp => ImageFormat::WebP,
+            ConvertFormat::Avif => ImageFormat::Avif,
+            ConvertFormat::Bmp => ImageFormat::Bmp,
+            ConvertFormat::Gif => ImageFormat::Gif,
+            ConvertFormat::Tiff => ImageFormat::Tiff,
+            ConvertFormat::OpenExr => ImageFormat::OpenExr,
+            ConvertFormat::Hdr => ImageFormat::Hdr,
         }
     }
 }
@@ -70,9 +106,23 @@ impl Converter for ConvertFormat {
         let from_format: ImageFormat = self.into();
         let img = ImageReader::with_format(Cursor::new(data), from_format).decode()?;
         // let img = ImageReader::new(Cursor::new(data)).decode()?;
-        let img = img.to_rgb8();
         let mut buf = std::vec![];
-        img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
-        Ok(buf)
+        match to_format {
+            ConvertFormat::Hdr =>{
+                let img =  img.to_rgb32f();
+                img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
+                Ok(buf)
+            }
+            ConvertFormat::OpenExr =>{
+                let img = img.to_rgb32f();
+                img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
+                Ok(buf)
+            }
+            _=>{
+                let img = img.to_rgb8();
+                img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
+                Ok(buf)
+            }
+        }
     }
 }

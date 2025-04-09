@@ -29,7 +29,7 @@ export interface ConverterImageFile {
 }
 
 export interface ConverterImageAction {
-  type: "added" | "changed" | "clear"; //
+  type: "added" | "changed" | "clear" | "set_all_to_format"; //
   payload: ConverterImageFile;
 }
 
@@ -47,6 +47,15 @@ export function converterReducer(
           return { ...item, ...action.payload };
         }
         return item;
+      });
+    }
+    case "set_all_to_format": {
+      return state.map((item) => {
+        return {
+          ...item,
+          to_format: action.payload.to_format,
+          status: "ready" as ConverterImageFile["status"],
+        };
       });
     }
 

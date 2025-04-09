@@ -51,7 +51,7 @@ pub(crate) async fn compress_image(
         Some(s) => Path::new(&s).join(file_name),
         None => p.parent().unwrap().join("output").join(file_name),
     };
-    
+
     tokio::fs::create_dir_all(saved_path.parent().unwrap())
         .await
         .map_err(AppError::FileNotFound)?;
@@ -88,9 +88,10 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
     let p = Path::new(&file_path);
     let file_stem = p.file_stem().unwrap().to_str().unwrap();
     let filename = format!("{}.{}", file_stem, &to_format);
-    let data = match kind.extension() {
-        "jpg" | "png" | "webp" => {
-            let c: ConvertFormat = kind.extension().try_into()?;
+    let ext = kind.extension();
+    let data = match ext {
+        "jpg" | "png" | "webp" | "avif" | "bmp" | "gif" | "tiff" | "hdr" |"exr" => {
+            let c: ConvertFormat = ext.try_into()?;
             let fmt: ConvertFormat = to_format.try_into()?;
             let file_data = tokio::fs::read(file_path.as_str())
                 .await
