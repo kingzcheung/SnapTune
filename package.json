@@ -1,12 +1,11 @@
 {
-  "name": "SnapTune",
+  "name": "snaptune",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "tauri": "tauri",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
+    "tauri": "tauri"
   },
   "dependencies": {
     "@heroui/react": "2.7.6-beta.2",
