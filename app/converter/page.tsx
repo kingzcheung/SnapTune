@@ -4,6 +4,8 @@ import {
   Button,
   Chip,
   getKeyValue,
+  Select,
+  SelectItem,
   Table,
   TableBody,
   TableCell,
@@ -45,10 +47,23 @@ const statusColorMap = {
   converted: "success",
 };
 
+const formats = [
+  { key: "jpg", label: "JPEG" },
+  { key: "png", label: "PNG" },
+  { key: "webp", label: "WEBP" },
+  {key: "avif", label: "AVIF"},
+  {key: "gif", label: "GIF"},
+  {key: "bmp", label: "BMP"},
+  {key: "tiff", label: "TIFF"},
+  {key: "exr", label: "EXR"},
+  {key: "hdr", label: "HDR"},
+];
+
 export default function Converter() {
   const [files, dispatch] = useReducer(converterReducer, []);
   const [converterLoading, setConverterLoading] = useState(false);
   const [savePath, setSavePath] = useState("");
+  const [allToFormat, setAllToFormat] = useState<ImageFormatKey>("jpg");
 
   async function selectFileHandle() {
     const selected = await open({
@@ -202,7 +217,16 @@ export default function Converter() {
             </div>
           );
         }
-
+        case "from_format": {
+          return <span className="uppercase line-through">{cellValue}</span>;
+        }
+        case "to_format": {
+          return (
+            <Chip color="warning" variant="flat" className="uppercase">
+              {cellValue}
+            </Chip>
+          );
+        }
         default:
           return cellValue;
       }
@@ -211,7 +235,7 @@ export default function Converter() {
   );
 
   return (
-    <div className="h-full relative w-full pt-2">
+    <div className="h-full relative w-full">
       {files.length > 0 ? (
         <div className="h-full">
           <div className="flex gap-2 items-center mb-2">
@@ -227,7 +251,29 @@ export default function Converter() {
                   : "Please select save path"}
               </span>
             </Button>
-
+            <Select
+              size="sm"
+              className="max-w-40"
+              selectedKeys={[allToFormat]}
+              onChange={(e) => {
+                setAllToFormat(e.target.value as ImageFormatKey);
+                dispatch({
+                  type: "set_all_to_format",
+                  payload: {
+                    to_format: e.target.value as ImageFormatKey,
+                    raw_path: "",
+                    save_path: "",
+                    file_name: "",
+                    from_format: "jpg",
+                    status: "ready",
+                  },
+                });
+              }}
+            >
+              {formats.map((format) => (
+                <SelectItem key={format.key}>{format.label}</SelectItem>
+              ))}
+            </Select>
             <Button
               size="sm"
               color="primary"
