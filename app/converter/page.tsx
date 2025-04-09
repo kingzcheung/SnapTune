@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  addToast,
   Button,
   Chip,
   getKeyValue,
@@ -177,6 +178,12 @@ export default function Converter() {
         dispatch({
           type: "changed",
           payload: file,
+        });
+        addToast({
+          color: "danger",
+          title: "Error",
+          description: `Cant convert ${file.file_name} 
+                        Error: ${e}`,
         });
       }
     }
