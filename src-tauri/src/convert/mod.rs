@@ -1,6 +1,8 @@
 use image::{ImageFormat, ImageReader};
 use std::io::Cursor;
 
+pub mod heif;
+
 pub enum ConvertFormat {
     Jpeg,
     Png,
