@@ -1,5 +1,5 @@
 use crate::{
-    convert::{ConvertFormat, Converter},
+    convert::{heif::heif_to_x, ConvertFormat, Converter},
     error::AppError,
     quant::{jpeg::Jpeg, png::Png, Compression},
     settings::Settings,
@@ -89,6 +89,7 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
     let file_stem = p.file_stem().unwrap().to_str().unwrap();
     let filename = format!("{}.{}", file_stem, &to_format);
     let ext = kind.extension();
+
     let data = match ext {
         "jpg" | "png" | "webp" | "avif" | "bmp" | "gif" | "tiff" | "hdr" |"exr" => {
             let c: ConvertFormat = ext.try_into()?;
@@ -97,6 +98,14 @@ pub async fn convert(file_path: String, to_format: String) -> Result<ConverterRe
                 .await
                 .map_err(AppError::FileNotFound)?;
             let d = c.convert(&file_data, fmt).map_err(AppError::Any)?;
+            Ok(d)
+        },
+        "heif" =>{
+            let file_data = tokio::fs::read(file_path.as_str())
+                .await
+                .map_err(AppError::FileNotFound)?;
+            let fmt: ConvertFormat = to_format.try_into()?;
+            let d = heif_to_x(&file_data, fmt).map_err(|e| AppError::Any(e))?;
             Ok(d)
         }
         _ => Err(AppError::NotImplemented),
