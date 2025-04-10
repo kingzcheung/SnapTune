@@ -15,6 +15,7 @@ pub enum ConvertFormat {
     OpenExr,
 }
 
+#[allow(dead_code)]
 impl ConvertFormat {
     fn get_ext(&self) -> &'static str {
         match self {
@@ -110,17 +111,17 @@ impl Converter for ConvertFormat {
         // let img = ImageReader::new(Cursor::new(data)).decode()?;
         let mut buf = std::vec![];
         match to_format {
-            ConvertFormat::Hdr =>{
-                let img =  img.to_rgb32f();
-                img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
-                Ok(buf)
-            }
-            ConvertFormat::OpenExr =>{
+            ConvertFormat::Hdr => {
                 let img = img.to_rgb32f();
                 img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
                 Ok(buf)
             }
-            _=>{
+            ConvertFormat::OpenExr => {
+                let img = img.to_rgb32f();
+                img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
+                Ok(buf)
+            }
+            _ => {
                 let img = img.to_rgb8();
                 img.write_to(&mut Cursor::new(&mut buf), to_format.into())?;
                 Ok(buf)

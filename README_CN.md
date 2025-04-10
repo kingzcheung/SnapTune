@@ -8,8 +8,6 @@
 
 - [x] 有损压缩 [jpg/png]
 - [x] 格式转换
-- [x] 图片裁剪
-- [x] 图片 resize
 - [ ] 更多功能...
 
 ## 安装
@@ -47,7 +45,7 @@ pnpm tauri build
 由于我没有 macOS 的签名证书，所以二进制包我这里没有提供。 
 
 ## 预览
-![Preview](data/Jietu20241203-214654.jpg)
+![Preview](data/screenshot-20250410-175843.jpg)
 ## 其他
 
 如果你想使用在线版本的有损压缩功能，请访问 [https://tinypng.ximei.me](https://tinypng.ximei.me)。

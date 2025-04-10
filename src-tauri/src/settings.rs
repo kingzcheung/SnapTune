@@ -13,5 +13,5 @@ pub struct Settings {
 }
 
 fn default_quality() -> u8 {
-    80
+    100
 }

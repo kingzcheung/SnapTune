@@ -1,10 +1,8 @@
 use std::io::Cursor;
 
-use anyhow::Context;
-use image::Rgb;
-use libheif_rs::{ColorSpace, HeifContext, LibHeif, Plane, Planes, RgbChroma};
-
 use super::ConvertFormat;
+use anyhow::Context;
+use libheif_rs::{ColorSpace, HeifContext, LibHeif, RgbChroma};
 
 pub fn heif_to_x(data: &[u8], to_format: ConvertFormat) -> Result<Vec<u8>, anyhow::Error> {
     let lib_heif = LibHeif::new();
@@ -20,7 +18,6 @@ pub fn heif_to_x(data: &[u8], to_format: ConvertFormat) -> Result<Vec<u8>, anyho
         planes.interleaved.unwrap().data.to_vec(),
     )
     .context("Invalid image data")?;
-
 
     let mut buf = std::vec![];
     match to_format {
