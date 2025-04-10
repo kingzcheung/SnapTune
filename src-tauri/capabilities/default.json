@@ -50,6 +50,7 @@
     "fs:default",
     "notification:default",
     "shell:default",
-    "store:default"
+    "store:default",
+    "opener:default"
   ]
 }

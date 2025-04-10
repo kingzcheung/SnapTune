@@ -13,14 +13,9 @@ pub async fn crop_image(
     let mut img = ImageReader::open(image_path)?
         .decode()
         .map_err(|_| AppError::ImageDecodeError)?;
-    let img = img.crop(
-        crop_x,
-        crop_y,
-        crop_width,
-        crop_height,
-    );
+    let img = img.crop(crop_x, crop_y, crop_width, crop_height);
 
-    let _ = img.save(save_path).map_err(|e| AppError::ImageSaveError);
+    let _ = img.save(save_path).map_err(|_e| AppError::ImageSaveError);
 
     Ok(())
 }
@@ -35,8 +30,8 @@ pub async fn resize_image(
         .decode()
         .map_err(|_| AppError::ImageDecodeError)?;
     let img = img.resize(
-        width as u32,
-        height as u32,
+        width,
+        height,
         image::imageops::FilterType::Nearest,
     );
 
