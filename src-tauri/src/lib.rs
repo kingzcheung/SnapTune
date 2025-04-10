@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 #[cfg(target_os = "macos")]
