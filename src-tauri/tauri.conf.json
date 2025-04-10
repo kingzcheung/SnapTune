@@ -44,7 +44,6 @@
         
       },
       "frameworks": [
-        "/opt/homebrew/Cellar/libheif/1.19.7/lib/libheif.dylib"
       ],
       "hardenedRuntime": true,
       "minimumSystemVersion": "10.13"
@@ -56,10 +55,7 @@
       },
       "deb": {
         "files": {
-          "/usr/share/README.md": "../README.md",
-          "/usr/lib/x86_64-linux-gnu/libheif.so":"/usr/lib/x86_64-linux-gnu/libheif.so",
-          "/usr/lib/x86_64-linux-gnu/libheif.so.1.17.6":"/usr/lib/x86_64-linux-gnu/libheif.so.1.17.6",
-          "/usr/lib/x86_64-linux-gnu/libheif.so.1":"/usr/lib/x86_64-linux-gnu/libheif.so.1"
+          "/usr/share/README.md": "../README.md"
         }
       },
       "rpm": {
